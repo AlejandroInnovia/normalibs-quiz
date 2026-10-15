@@ -1,0 +1,111 @@
+# Quiz Normalibs® "Apunta a ti"
+
+Quiz de 5 preguntas que recomienda Normalibs® Cápsulas (adultos) o Sobres (niños), muestra una rutina diaria con tips de alimentación y lleva al pago del Plan Paciente 2+1 en GoPharma Care. Al final, la persona deja su correo para desbloquear un descuento extra.
+
+- Un solo archivo `index.html` con HTML, CSS y JavaScript. No necesita compilación ni dependencias.
+- Única dependencia externa: la tipografía Montserrat desde Google Fonts.
+- Pensado primero para móvil, con modo claro y oscuro.
+- Revisado contra WCAG 2.2 AA (contraste, áreas táctiles, lectores de pantalla y movimiento reducido).
+
+## Estructura
+
+```
+normalibs-quiz/
+├── index.html
+├── README.md
+└── assets/
+    ├── petri.webp                  Arte de cultivo (portada y resultado)
+    ├── para-mi.webp                Foto "Para mí"
+    ├── para-mi-hijo.webp           Foto "Para mi hijo o hija"
+    ├── normalibs-capsulas.webp     Caja de Cápsulas
+    ├── normalibs-sobres.webp       Caja de Sobres
+    ├── normalibs-logo.webp         Logo en color (modo claro)
+    ├── normalibs-logo-blanco.webp  Logo blanco (modo oscuro y portada)
+    ├── innova-blanco.webp          Logo Innova
+    └── novonesis-blanco.webp       Logo Novonesis
+```
+
+## Cómo publicarlo
+
+Elijan una de estas opciones:
+
+1. **Página propia (recomendado):** suban la carpeta completa a la misma hosting de la landing, por ejemplo en `normalibs-centroamerica.vercel.app/quiz`. En Vercel basta con poner la carpeta en `/public/quiz/` o en la raíz de un proyecto nuevo.
+2. **Dentro de una página existente:** inserten el quiz con un iframe.
+   ```html
+   <iframe src="/quiz/index.html" title="Quiz Normalibs" style="width:100%;height:100vh;border:0"></iframe>
+   ```
+3. **Shopify (GoPharma Care):** suban las imágenes a *Contenido → Archivos*, creen una plantilla de página y peguen el contenido de `index.html`. Después reemplacen las rutas `assets/...` por las URLs que da Shopify.
+
+## Configuración
+
+Todo lo editable está en el bloque `CONFIG`, al inicio del `<script>` en `index.html`:
+
+```js
+const CONFIG={
+  store:"https://gopharmacare.com",
+  coupon:{pct:10,code:"QUIZ10"},
+  leadEndpoint:"",
+  showTeamPanel:false
+};
+```
+
+| Campo | Para qué sirve |
+|---|---|
+| `store` | Dominio de la tienda Shopify. |
+| `coupon` | Porcentaje y código que se muestran al desbloquear. **El código debe existir en Shopify:** *Descuentos → Crear descuento → Código*, con 10% sobre los productos Plan Paciente 2+1 y un uso por cliente. |
+| `leadEndpoint` | URL que recibe el correo y las respuestas por `POST` en JSON. Puede ser un webhook de Klaviyo, Mailchimp, HubSpot, Zapier o Make. Si se deja vacío, no se envía nada. |
+| `showTeamPanel` | En `true` muestra el panel "Vista del equipo", con los datos del lead y la secuencia de correos. Es solo para revisión interna: en producción debe estar en `false`. |
+
+### Datos que se envían a `leadEndpoint`
+
+```json
+{
+  "email": "nombre@correo.com",
+  "consent": true,
+  "para": "adulto | hijo",
+  "presentacion": "capsulas | sobres",
+  "molestia": "hinchazon | molestias | ritmo | varias",
+  "momento": "comidas | trabajo | planes | estres | escuela | comer | paseos | nervios",
+  "diagnostico": "si | sospecha | no",
+  "alarma": ["ninguno"],
+  "cupon": "QUIZ10",
+  "fecha": "2026-10-15T20:00:00.000Z"
+}
+```
+
+Con esos campos se segmenta la secuencia de email marketing:
+- **Inmediato:** rutina y código.
+- **Día 1:** recordatorio con su molestia.
+- **Día 3:** "3 meses de constancia".
+- **Día 7:** "su código vence pronto".
+
+La secuencia se detiene cuando la persona compra.
+
+## Enlaces de compra
+
+- **Pago único:** va directo al checkout con el producto ya en el carrito (`/cart/{variante}:1`).
+  - Cápsulas: variante `46664448442567`, ¢48.000.
+  - Sobres: variante `46958985576647`, ¢63.000.
+- **Plan fraccionado:** va a `/pages/contact`, porque lo coordina el equipo de GoPharma Care.
+- **Con cupón:** el mismo checkout, con `&discount=QUIZ10` para que el código quede aplicado solo.
+- **Medición:** todos los enlaces llevan UTM (`utm_source=quiz_normalibs`, `utm_campaign=apunta_a_ti`, `utm_content=presentacion_modo`), así que las ventas del quiz se pueden filtrar en Shopify Analytics.
+
+Si cambian precios o variantes en Shopify, actualicen el objeto `PRES` en `index.html`.
+
+## Analítica
+
+El quiz envía eventos a `window.dataLayer`, compatible con Google Tag Manager, GA4 y Meta Pixel vía GTM:
+
+| Evento | Cuándo |
+|---|---|
+| `quiz_complete` | La persona llega al resultado. Incluye `para`, `presentacion`, `molestia`, `momento`, `diagnostico` y `alarma`. |
+| `quiz_lead` | Deja su correo y desbloquea el cupón. |
+| `quiz_checkout_click` | Toca un botón que lleva a GoPharma Care. |
+
+## Pendientes antes de lanzar
+
+- [ ] Crear el código `QUIZ10` en Shopify.
+- [ ] Conectar `leadEndpoint` a la plataforma de email y armar la secuencia.
+- [ ] Revisar con Legal el texto de consentimiento del formulario (Ley 8968, datos de salud).
+- [ ] Validar con Regulatorio el fraseo de beneficio y los tips de alimentación.
+- [ ] Instalar GTM o Pixel en la página donde se publique el quiz.

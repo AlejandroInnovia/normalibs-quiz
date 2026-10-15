@@ -1,0 +1,709 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Quiz Apunta a ti de Normalibs®: encuentre su rutina y el Plan Paciente 2+1.">
+<title>Quiz Normalibs Apunta a ti</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap">
+<style>
+/* Layout: one phone-width column in the Normalibs landing language — offwhite or deep navy ground, the real petri-dish culture art as the hero object, teal pill CTAs, 28–32px cards. */
+:root{
+  --bg:#F7F5F1; --card:#FFFFFF; --ink:#1D1D1B; --head:#0A3A47; --muted:#5B6E73; --line:#E6E3DD;
+  --accent:#0B7880; --accent-ink:#0A7A83; --aqua:#7EC3CF; --soft:#E4F1F2;
+  --band:#0A3A47; --band-ink:#FFFFFF; --band-muted:rgba(255,255,255,.8);
+  --warn:#9B3B2E; --warn-soft:#F6E7E3; --glass:rgba(247,245,241,.9);
+  --pres:#4A3CA0; --pres-ink:#4A3CA0; --pres-on:#FFFFFF; --pres-hot:#A99CF0; --pres-halo:0 0 2px #fff,0 0 10px rgba(255,255,255,.95),0 0 22px rgba(255,255,255,.75);
+  --font:"Montserrat",Arial,"Helvetica Neue",sans-serif;
+  --ease:cubic-bezier(.2,.8,.2,1); --spring:cubic-bezier(.34,1.56,.64,1);
+}
+[data-pres="sobres"]{--pres:#E09A55;--pres-ink:#C07A38;--pres-on:#0A3A47;--pres-hot:#E09A55;--pres-halo:0 0 2px #fff,0 0 10px rgba(255,255,255,.95),0 0 22px rgba(255,255,255,.75)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#06191F; --card:#0C2A33; --ink:#E9F1F1; --head:#F4F8F8; --muted:#9DB6BB; --line:#1C4350;
+  --accent:#0B7880; --accent-ink:#5CC8D0; --soft:#0F3A45;
+  --band:#0B2C36; --warn:#F0A493; --warn-soft:#3A2420; --glass:rgba(6,25,31,.88);
+  --pres-ink:#9F8FEA; color-scheme:dark}
+  :root:not([data-theme="light"]) [data-pres="sobres"]{--pres-ink:#E09A55}}
+:root[data-theme="dark"]{
+  --bg:#06191F; --card:#0C2A33; --ink:#E9F1F1; --head:#F4F8F8; --muted:#9DB6BB; --line:#1C4350;
+  --accent:#0B7880; --accent-ink:#5CC8D0; --soft:#0F3A45;
+  --band:#0B2C36; --warn:#F0A493; --warn-soft:#3A2420; --glass:rgba(6,25,31,.88);
+  --pres-ink:#9F8FEA; color-scheme:dark}
+:root[data-theme="dark"] [data-pres="sobres"]{--pres-ink:#E09A55}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;transition:background .35s,color .35s}
+.app{max-width:480px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;padding-inline:20px}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent-ink);outline-offset:2px;border-radius:12px}
+sup{font-size:.6em;line-height:0}
+em{font-style:italic}
+
+/* logo swap per theme */
+.lg-w{display:none}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .lg-d{display:none}:root:not([data-theme="light"]) .lg-w{display:block}}
+:root[data-theme="dark"] .lg-d{display:none}:root[data-theme="dark"] .lg-w{display:block}
+
+/* Header */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--glass);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);margin-inline:-20px;padding:10px 20px 10px;display:flex;flex-direction:column;gap:10px;border-bottom:1px solid var(--line)}
+.toprow{display:flex;align-items:center;gap:8px;min-height:40px}
+.iconbtn{border:0;background:transparent;display:grid;place-items:center;width:44px;height:44px;color:var(--head);cursor:pointer;border-radius:50%;flex:none;transition:background .2s}
+.iconbtn:hover{background:var(--soft)}
+.back{margin-left:-8px}
+.back[hidden]{display:none}
+.brand img{height:30px;width:auto;max-width:100%}
+.steplabel{margin-left:auto;font-size:13px;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.steplabel b{color:var(--head);font-weight:800}
+.bar{height:3px;border-radius:99px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;width:100%;background:var(--accent);border-radius:99px;transform-origin:left center;transform:scaleX(0);transition:transform .9s cubic-bezier(.22,1,.36,1);will-change:transform}
+.theme .sun{display:none}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .theme .sun{display:block}:root:not([data-theme="light"]) .theme .moon{display:none}}
+:root[data-theme="dark"] .theme .sun{display:block}:root[data-theme="dark"] .theme .moon{display:none}
+
+main{flex:1;display:flex;flex-direction:column}
+.screen{flex:1;display:flex;flex-direction:column;gap:22px;padding-block:24px 28px;animation:inF .5s var(--ease) both}
+main[data-dir="back"] .screen{animation-name:inB}
+.screen.leaving{animation:outF .16s ease-in both}
+main[data-dir="back"] .screen.leaving{animation-name:outB}
+@keyframes inF{from{opacity:.001;transform:translateX(26px)}to{opacity:1;transform:none}}
+@keyframes inB{from{opacity:.001;transform:translateX(-26px)}to{opacity:1;transform:none}}
+@keyframes outF{to{opacity:0;transform:translateX(-22px)}}
+@keyframes outB{to{opacity:0;transform:translateX(22px)}}
+@keyframes up{from{opacity:.001;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:.001;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes breathe{0%,100%{transform:scale(.97);opacity:.45}50%{transform:scale(1.04);opacity:.9}}
+@keyframes ripple{from{transform:scale(.9);opacity:.7}to{transform:scale(1.22);opacity:0}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-ink)}
+h1,h2,h3{margin:0;text-wrap:balance;color:var(--head)}
+h1{font-size:clamp(28px,8vw,34px);line-height:1.12;font-weight:800;letter-spacing:-.01em}
+h2{font-size:clamp(25px,7vw,30px);line-height:1.15;font-weight:800;letter-spacing:-.01em}
+h3{font-size:18px;font-weight:800;line-height:1.25}
+.sub{margin:0;color:var(--muted);font-size:15.5px}
+h1.qt{font-size:clamp(25px,7vw,30px);line-height:1.15}
+
+/* Buttons */
+.btn{position:relative;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:56px;padding:14px 26px;border:0;border-radius:999px;background:var(--accent);color:#fff;font-weight:700;font-size:14px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;text-decoration:none;transition:transform .15s var(--ease),box-shadow .25s,opacity .2s}
+.btn:hover{box-shadow:0 14px 28px -16px rgba(14,140,150,.8);transform:translateY(-1px)}
+.btn:active{transform:scale(.985)}
+.btn[disabled]{opacity:.35;cursor:not-allowed;box-shadow:none;transform:none}
+.btn.ghost{background:transparent;color:var(--head);border:1.5px solid var(--head)}
+.btn.light{background:#fff;color:#0A3A47}
+.btn.sq{border-radius:16px}
+.btn.shine::after{content:"";position:absolute;top:0;bottom:0;width:40%;left:-60%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.38),transparent);transform:skewX(-18deg);animation:shine 3.6s ease-in-out 3 1.2s}
+@keyframes shine{0%{left:-60%}35%,100%{left:130%}}
+.link{border:0;background:none;color:var(--muted);font-size:13.5px;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:8px 12px;min-height:44px;align-self:center}
+
+/* Intro */
+.intro{gap:18px;text-align:center;align-items:center;padding-top:58px}
+.dish{position:relative;width:min(78vw,320px);aspect-ratio:1;max-width:100%;margin-block:4px 6px;animation:pop .9s var(--spring) both}
+.dish img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;animation:spin 80s linear infinite;filter:drop-shadow(0 26px 34px rgba(10,58,71,.28))}
+.dish::before{content:"";position:absolute;inset:-14px;border-radius:50%;border:1px solid var(--aqua);opacity:.5;animation:breathe 4.5s ease-in-out 3}
+.dish::after{content:"";position:absolute;inset:-14px;border-radius:50%;border:1px solid var(--aqua);animation:ripple 4.5s ease-out 3 1.5s}
+.dish .scrim{position:absolute;inset:6%;border-radius:50%;background:radial-gradient(closest-side,rgba(10,58,71,.62),rgba(10,58,71,.28) 60%,rgba(10,58,71,0));pointer-events:none}
+.dish .label{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:0 12%;text-align:center;color:#fff}
+.dish .label img{position:static;animation:none;width:100%;height:auto;filter:drop-shadow(0 2px 10px rgba(0,0,0,.45))}
+.intro>*:not(.dish){animation:up .7s var(--ease) both}
+.intro>.eyebrow{animation-delay:.2s}.intro>h1{animation-delay:.3s}.intro>.sub{animation-delay:.4s}.intro>.chips{animation-delay:.5s}.intro>.btn{animation-delay:.6s}.intro>.note{animation-delay:.7s}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.chips span{font-size:12px;font-weight:600;padding:7px 12px;border-radius:99px;background:var(--soft);color:var(--head)}
+.note{font-size:12.5px;color:var(--muted);margin:0}
+
+/* Questions */
+.qhead{display:flex;flex-direction:column;gap:10px;text-align:center;align-items:center}
+.qhead>*{animation:up .55s var(--ease) both}
+.qhead>*:nth-child(2){animation-delay:.08s}
+.hint{margin:0;color:var(--muted);font-size:14.5px}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{position:relative;overflow:hidden;isolation:isolate;display:flex;align-items:center;justify-content:center;gap:10px;width:100%;text-align:center;padding:15px 22px;min-height:58px;border-radius:999px;border:1.5px solid var(--line);background:var(--card);cursor:pointer;font-weight:600;font-size:15.5px;line-height:1.3;color:var(--head);transition:border-color .15s,color .2s,transform .1s;animation:pop .45s var(--ease) both;animation-delay:calc(var(--i,0)*55ms + .1s)}
+.opt::before{content:"";position:absolute;inset:0;background:var(--accent);transform:scaleX(0);transform-origin:left center;transition:transform .32s var(--ease);z-index:-1}
+.opt:hover{border-color:var(--accent)}
+.opt:active{transform:scale(.985)}
+.opt .dot{flex:none;width:0;height:18px;overflow:hidden;display:grid;place-items:center;transition:width .18s}
+.opt .dot::after{content:"";width:10px;height:5px;border:2px solid currentColor;border-top:0;border-right:0;transform:translateY(-2px) rotate(-45deg)}
+.opt[aria-checked="true"],.opt[aria-pressed="true"]{border-color:var(--accent);color:#fff}
+.opt[aria-checked="true"]::before,.opt[aria-pressed="true"]::before{transform:scaleX(1)}
+.opt[aria-checked="true"] .dot,.opt[aria-pressed="true"] .dot{width:16px}
+.opt span{min-width:0}
+.who{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.whoc{position:relative;overflow:hidden;display:block;padding:0;border-radius:26px;border:2px solid transparent;background:var(--card);cursor:pointer;aspect-ratio:4/5;max-width:100%;color:#fff;text-align:left;transition:transform .25s var(--ease),box-shadow .25s,border-color .2s;animation:pop .5s var(--ease) both;animation-delay:calc(var(--i,0)*80ms + .12s)}
+.whoc img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease)}
+.whoc::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,58,71,0) 40%,rgba(10,58,71,.88))}
+.whoc .wt{position:absolute;left:14px;right:14px;bottom:14px;z-index:1;display:flex;flex-direction:column;gap:2px}
+.whoc b{font-size:16px;font-weight:800;line-height:1.2}
+.whoc small{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--aqua)}
+.whoc:hover{transform:translateY(-3px);box-shadow:0 20px 34px -22px rgba(10,58,71,.6)}
+.whoc:hover img,.whoc[aria-pressed="true"] img{transform:scale(1.05)}
+.whoc[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 4px var(--soft)}
+.safety{display:flex;gap:10px;align-items:flex-start;background:var(--soft);color:var(--head);border-radius:16px;padding:12px 14px;font-size:13.5px}
+.safety svg{flex:none;margin-top:2px}
+.dock{position:sticky;bottom:0;margin-top:auto;padding-block:14px calc(14px + env(safe-area-inset-bottom,0px));background:linear-gradient(180deg,transparent,var(--bg) 30%)}
+
+/* Loading */
+.loading{align-items:center;justify-content:center;text-align:center;gap:22px;min-height:62vh}
+.orb{position:relative;width:150px;height:150px;max-width:100%}
+.orb img{position:absolute;inset:0;width:100%;height:100%;animation:spin 6s linear infinite}
+.orb::after{content:"";position:absolute;inset:-12px;border-radius:50%;border:1.5px solid var(--aqua);animation:ripple 1.6s ease-out infinite}
+
+/* Result */
+.result{padding-top:8px;gap:0}
+.rhero{position:relative;display:flex;justify-content:center;padding-top:44px}
+.rhero .dish{width:min(74vw,290px)}
+.rhero .dish .label{padding:0 14%;gap:8px}
+.rhero .dish .label .pn{font-weight:800;font-size:clamp(26px,7.4vw,32px);line-height:1;color:var(--pres);text-shadow:var(--pres-halo)}
+.rhero .dish .label .au{font-size:11px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--pres-on);background:var(--pres);border-radius:99px;padding:5px 12px}
+.rhead{display:flex;flex-direction:column;gap:12px;padding:22px 0 6px;text-align:center;align-items:center}
+.rhead>*{animation:up .7s var(--ease) both}
+.rhead>*:nth-child(1){animation-delay:.45s}.rhead>*:nth-child(2){animation-delay:.55s}.rhead>*:nth-child(3){animation-delay:.65s}.rhead>*:nth-child(4){animation-delay:.75s}
+.rbody{display:flex;flex-direction:column;gap:34px;padding-top:22px}
+.sec{display:flex;flex-direction:column;gap:14px}
+.sec-head{display:flex;flex-direction:column;gap:8px;text-align:center;align-items:center}
+.told{display:flex;flex-direction:column;border-radius:26px;background:var(--card);border:1px solid var(--line);margin:0;overflow:hidden}
+.told div{display:flex;flex-direction:column;gap:2px;padding:14px 20px}
+.told div+div{border-top:1px solid var(--line)}
+.told dt{font-size:12px;color:var(--muted);font-weight:500}
+.told dd{margin:0;font-weight:700;font-size:15px;color:var(--head)}
+.mdnote{display:flex;gap:12px;align-items:flex-start;background:var(--soft);color:var(--head);border-radius:20px;padding:14px 16px}
+.mdnote svg{flex:none;margin-top:2px}
+.mdnote p{margin:0;font-size:14px}
+.mdnote.warn{background:var(--warn-soft);color:var(--warn)}
+.rv{opacity:.001;transform:translateY(24px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.rv.in{opacity:1;transform:none}
+
+/* Product card */
+.pcard{border-radius:30px;background:var(--card);border:1px solid var(--line);display:grid;grid-template-columns:42% 1fr;gap:16px;padding:16px;align-items:center}
+.pcard .pimg{background:#fff;border-radius:20px;overflow:hidden;aspect-ratio:4/5;display:grid;place-items:center;max-width:100%}
+.pcard .pimg img{width:100%;height:100%;object-fit:contain}
+.pcard .pinfo{display:flex;flex-direction:column;gap:8px;min-width:0}
+.ptag{align-self:flex-start;font-size:10.5px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;padding:5px 10px;border-radius:99px;background:var(--pres);color:var(--pres-on)}
+.pcard h3{font-size:19px}
+.pcard h3 span,.pn-c{color:var(--pres-ink);font-weight:500}
+.pcard h3 span,.tier h3 .pn-c{font-weight:700}
+.tier.hot .pn-c{color:var(--pres-hot)}
+.specs{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+.specs li{display:flex;gap:8px;font-size:13.5px;color:var(--muted);line-height:1.35}
+.specs li::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:var(--pres);margin-top:6px}
+.constancy{display:flex;gap:14px;align-items:center;background:var(--band);color:var(--band-ink);border-radius:24px;padding:16px 18px}
+.constancy .big{font-size:40px;font-weight:800;line-height:1;color:var(--aqua);font-variant-numeric:tabular-nums}
+.constancy p{margin:0;font-size:14px;color:var(--band-muted)}
+.constancy b{color:#fff}
+
+/* Routine */
+.timeline{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.timeline li{display:grid;grid-template-columns:46px 1fr;gap:14px;padding-bottom:20px;position:relative}
+.timeline li:not(:last-child)::before{content:"";position:absolute;left:22px;top:46px;bottom:4px;width:2px;background:linear-gradient(var(--accent),var(--line))}
+.timeline .tic{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:var(--soft);color:var(--accent-ink)}
+.timeline .tic.main{background:var(--accent);color:#fff}
+.timeline small{display:block;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-ink);margin-top:3px}
+.timeline h4{margin:2px 0 3px;font-size:15.5px;color:var(--head)}
+.timeline p{margin:0;font-size:14px;color:var(--muted)}
+.tips{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tip{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:16px 14px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.tip .ti{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:var(--soft);color:var(--accent-ink)}
+.tip b{font-size:14px;color:var(--head);line-height:1.3}
+.tip span{font-size:12.5px;color:var(--muted);line-height:1.4}
+.tip.wide{grid-column:1/-1;flex-direction:row;align-items:flex-start;gap:12px;background:var(--soft);border-color:transparent}
+.tip.wide .ti{background:var(--card);flex:none}
+.tip.wide div{display:flex;flex-direction:column;gap:4px;min-width:0}
+.fine{margin:0;font-size:11.5px;color:var(--muted);text-align:center}
+
+/* Plan */
+.plan{scroll-margin-top:96px}
+.save{align-self:center;font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;background:var(--head);color:var(--bg);border-radius:99px;padding:7px 14px}
+.tier{border-radius:30px;padding:24px 20px;display:flex;flex-direction:column;gap:12px;background:var(--card);border:1px solid var(--line);color:var(--ink);transition:transform .3s var(--ease),box-shadow .3s}
+.tier:hover{transform:translateY(-3px);box-shadow:0 24px 40px -28px rgba(10,58,71,.55)}
+.tier.hot{background:radial-gradient(120% 80% at 100% 0%,#14576a 0%,#0A3A47 55%);color:#fff;border-color:#0A3A47}
+:root[data-theme="dark"] .tier.hot{border-color:#1C6170}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .tier.hot{border-color:#1C6170}}
+.tier-h{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.lvl{font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-ink)}
+.tier.hot .lvl{color:var(--aqua)}
+.pop{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;background:var(--aqua);color:#0A3A47;border-radius:99px;padding:5px 10px;animation:glow 2.4s ease-in-out 3}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(126,195,207,0)}50%{box-shadow:0 0 0 6px rgba(126,195,207,.25)}}
+.tier h3{font-size:19px}
+.tier.hot h3{color:#fff}
+.price{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.price b{font-size:40px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1}
+.price span{font-size:14px;opacity:.75}
+.months{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.months div{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:12px 14px;font-size:13px;line-height:1.35}
+.months b{display:block;font-size:11px;letter-spacing:.14em;color:var(--accent-ink)}
+.was{margin:0;font-size:13px;opacity:.8}
+.ticks2{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px;font-size:14px}
+.ticks2 li{display:flex;gap:8px}
+.ticks2 li::before{content:"✓";color:var(--accent-ink);font-weight:800}
+.tier.hot .ticks2 li::before{color:var(--aqua)}
+.tease{display:flex;gap:10px;align-items:center;justify-content:center;font-size:13.5px;font-weight:700;color:var(--head);background:var(--soft);border-radius:99px;padding:12px 16px;border:0;cursor:pointer;width:100%}
+.tease svg{animation:wiggle 2.8s ease-in-out 3}
+@keyframes wiggle{0%,80%,100%{transform:rotate(0)}85%{transform:rotate(-12deg)}90%{transform:rotate(10deg)}95%{transform:rotate(-6deg)}}
+.benefits{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.benefits li{display:grid;grid-template-columns:42px 1fr;gap:12px;align-items:start;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:14px}
+.benefits .bi{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:var(--soft);color:var(--accent-ink)}
+.benefits b{display:block;font-size:14.5px;color:var(--head)}
+.benefits span{font-size:13.5px;color:var(--muted)}
+
+/* Unlock */
+.unlock{margin-inline:-20px;background:#0A3A47;color:#fff;padding:32px 20px;display:flex;flex-direction:column;gap:16px;scroll-margin-top:80px;position:relative;overflow:hidden;isolation:isolate}
+.unlock::before{content:"";position:absolute;z-index:-1;width:300px;height:300px;top:-110px;right:-110px;background:url(assets/petri.webp) center/contain no-repeat;opacity:.22}
+.unlock .eyebrow{color:var(--aqua);text-align:center}
+.unlock h2{color:#fff;text-align:center}
+.unlock .sub{color:rgba(255,255,255,.8);text-align:center}
+.coupon{position:relative;border:2px dashed rgba(126,195,207,.6);border-radius:24px;padding:18px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
+.coupon .pct{font-size:48px;font-weight:800;line-height:1}
+.coupon .pct small{font-size:16px;font-weight:700;letter-spacing:.1em}
+.coupon .code{font-weight:800;letter-spacing:.24em;font-size:18px;color:var(--aqua);user-select:all}
+.coupon.locked{animation:dash 3s ease-in-out 3}
+@keyframes dash{0%,100%{border-color:rgba(126,195,207,.45)}50%{border-color:rgba(126,195,207,1)}}
+.coupon.locked .code{filter:blur(6px);user-select:none}
+.coupon.revealed .code{animation:unblur 1s var(--ease) both}
+.coupon.revealed .pct{animation:pop .7s var(--spring) both}
+@keyframes unblur{from{filter:blur(8px);letter-spacing:.6em;opacity:.3}to{filter:blur(0);letter-spacing:.24em;opacity:1}}
+.coupon .lockic{position:absolute;top:12px;right:12px;color:var(--aqua)}
+.gifts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;font-size:14px}
+.gifts li{display:flex;gap:10px;align-items:flex-start}
+.gifts li::before{content:"✓";color:var(--aqua);font-weight:800}
+.uform{background:var(--card);color:var(--ink);border-radius:28px;padding:20px 16px;display:flex;flex-direction:column;gap:14px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:13px;font-weight:700;color:var(--head)}
+.field input{width:100%;min-height:54px;padding:12px 18px;border-radius:999px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);font-size:16px}
+.field input:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 3px var(--soft)}
+.err{color:var(--warn);font-size:12.5px}
+.err:empty{display:none}
+.consent{display:flex;gap:12px;align-items:flex-start;font-size:12.5px;color:var(--muted);line-height:1.45;cursor:pointer}
+.consent input{flex:none;width:22px;height:22px;margin:0;accent-color:var(--accent)}
+.copyrow{display:flex;gap:8px}
+.copyrow .btn{flex:1}
+.copy{flex:none;min-height:56px;border-radius:999px;border:1.5px solid var(--aqua);background:transparent;color:var(--aqua);font-weight:700;padding:0 18px;cursor:pointer;font-size:13px;letter-spacing:.06em;text-transform:uppercase}
+.sentto{font-size:13px;color:rgba(255,255,255,.8);text-align:center;margin:0}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.fx{position:absolute;inset:0;pointer-events:none;z-index:3}
+
+.rdock{position:sticky;bottom:0;margin-inline:-20px;padding-inline:20px;transition:transform .25s,opacity .25s}
+.rdock.off{transform:translateY(110%);opacity:0;pointer-events:none}
+.alarmline{display:flex;gap:8px;align-items:flex-start;margin:0;font-size:12.5px;line-height:1.45;color:var(--warn)}
+.alarmline svg{flex:none;width:16px;height:16px;margin-top:1px}
+.legal{font-size:11.5px;color:var(--muted);line-height:1.5;margin:0}
+.legal strong{font-weight:700}
+.team{border-radius:20px;background:var(--soft);color:var(--head);padding:4px 16px}
+.team summary{cursor:pointer;font-weight:700;font-size:13.5px;padding:12px 0;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.team summary::-webkit-details-marker{display:none}
+.team summary::after{content:"+";font-size:18px}
+.team[open] summary::after{content:"–"}
+.team .tags{display:flex;flex-wrap:wrap;gap:6px;padding-bottom:12px}
+.team .tags span{font-size:12px;background:var(--card);color:var(--ink);border-radius:8px;padding:5px 9px;border:1px solid var(--line)}
+.team .tags span b{color:var(--accent-ink);font-weight:700}
+.team .mail{background:var(--card);color:var(--ink);border-radius:12px;padding:12px 14px;font-size:13.5px;margin-bottom:10px;display:flex;flex-direction:column;gap:4px}
+.team .mail small{color:var(--muted);font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
+.team .mail span{font-size:13px;color:var(--muted)}
+.team p{font-size:12.5px;margin:0 0 12px}
+.foot{padding-block:16px 22px;display:flex;flex-direction:column;gap:12px;border-top:1px solid var(--line)}
+.logos{display:flex;align-items:center;justify-content:center;gap:22px;flex-wrap:wrap}
+.logos img{width:118px;height:auto;max-width:40%;filter:brightness(0) saturate(100%);opacity:.7}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .logos img{filter:none;opacity:.85}}
+:root[data-theme="dark"] .logos img{filter:none;opacity:.85}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .rv{opacity:1;transform:none}
+}
+</style>
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<div class="app" id="app">
+  <header class="top">
+    <div class="toprow">
+      <button class="iconbtn back" id="back" type="button" hidden aria-label="Volver a la pregunta anterior"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></button>
+      <div class="brand"><img class="lg-d" src="assets/normalibs-logo.webp" alt="Normalibs® Bifidobacterium longum 35624™" width="460" height="85"><img class="lg-w" src="assets/normalibs-logo-blanco.webp" alt="Normalibs® Bifidobacterium longum 35624™" width="460" height="85"></div>
+      <div class="steplabel" id="steplabel" aria-live="polite"></div>
+      <button class="iconbtn theme" id="theme" type="button" aria-label="Cambiar entre modo claro y oscuro" title="Modo claro / oscuro">
+        <svg class="moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 019.5 4a8 8 0 1010.5 10.5z"/></svg>
+        <svg class="sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
+    <div class="bar" id="barwrap" hidden role="progressbar" aria-label="Progreso del quiz" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="bar"></i></div>
+  </header>
+  <main id="main"></main>
+  <footer class="foot">
+    <div class="logos"><img src="assets/innova-blanco.webp" alt="Innova · The way to health" width="348" height="84"><img src="assets/novonesis-blanco.webp" alt="Novonesis" width="300" height="38"></div>
+    <p class="legal">Suplemento alimenticio. <strong>Este producto no es un medicamento.</strong> Este cuestionario orienta y no reemplaza la evaluación de un profesional de la salud. Consulte con su médico.</p>
+  </footer>
+</div>
+
+<script>
+(function(){
+const IMG={petri:"assets/petri.webp",woman:"assets/para-mi.webp",kid:"assets/para-mi-hijo.webp",cap:"assets/normalibs-capsulas.webp",sob:"assets/normalibs-sobres.webp",logo:"assets/normalibs-logo.webp",logoW:"assets/normalibs-logo-blanco.webp"};
+/* ====== CONFIGURACIÓN (editar aquí) ====== */
+const CONFIG={
+  store:"https://gopharmacare.com",
+  coupon:{pct:10,code:"QUIZ10"},           // crear este código en Shopify > Descuentos
+  leadEndpoint:"",                          // URL que recibe el correo + respuestas (Klaviyo, Mailchimp, HubSpot, Zapier, etc.). Vacío = no envía.
+  showTeamPanel:false                       // true solo para revisión interna ("Vista del equipo")
+};
+const STORE=CONFIG.store;
+const COUPON=CONFIG.coupon;
+window.dataLayer=window.dataLayer||[];
+function track(event,data){try{window.dataLayer.push(Object.assign({event},data||{}))}catch(e){}}
+function sendLead(data){
+  track("quiz_lead",data);
+  if(!CONFIG.leadEndpoint)return;
+  try{fetch(CONFIG.leadEndpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)})}catch(e){}
+}
+
+/* theme toggle */
+const root=document.documentElement;root.lang="es";
+try{const t=localStorage.getItem("nl-theme");if(t==="dark"||t==="light")root.dataset.theme=t}catch(e){}
+document.getElementById("theme").addEventListener("click",()=>{
+  const cur=root.dataset.theme||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");
+  const nx=cur==="dark"?"light":"dark";root.dataset.theme=nx;try{localStorage.setItem("nl-theme",nx)}catch(e){}
+});
+
+/* Questions. Options: [value, adult label, child label] */
+const Q=[
+ {id:"who",n:1,t:"¿Para quién es?",h:"Así le recomendamos la presentación indicada.",who:true},
+ {id:"q1",n:2,t:"¿Qué es lo que más le afecta?",k:"¿Qué es lo que más le afecta a su hijo o hija?",opts:[
+   ["hinchazon","Inflamación o hinchazón"],["molestias","Molestias abdominales","Dolor o molestias de pancita"],["ritmo","Cambios en el ritmo intestinal"],["varias","Varias de estas a la vez"]]},
+ {id:"q4",n:3,t:"¿En qué momentos lo nota más?",adult:[["comidas","Cuando como fuera de casa"],["trabajo","En el trabajo"],["planes","En viajes o planes sociales"],["estres","En momentos de estrés"]],
+   child:[["escuela","En la escuela o el colegio"],["comer","Después de comer"],["paseos","En paseos o actividades"],["nervios","En momentos de nervios"]]},
+ {id:"q3",n:4,t:"¿Tiene diagnóstico médico de Síndrome de Intestino Irritable?",k:"¿Su pediatra le diagnosticó Síndrome de Intestino Irritable?",opts:[
+   ["si","Sí"],["sospecha","No, pero lo sospecho","No, pero lo sospechamos"],["no","No"]]},
+ {id:"alarm",n:5,multi:true,t:"¿Ha notado alguno de estos síntomas?",k:"¿Ha notado alguno de estos síntomas en su hijo o hija?",h:"Marque todos los que apliquen.",opts:[
+   ["sangre","Sangre en las heces"],["peso","Pérdida de peso sin explicación"],["fiebre","Fiebre junto con las molestias"],["noche","Molestias que despiertan de noche"],["ninguno","Ninguno de estos"]]}
+];
+const TOTAL=5;
+const flow=["intro",...Q.map(q=>q.id),"loading","result"];
+let i=0;const A={alarm:[]};let lead={email:"",unlocked:false};let obs=[];let busy=false;
+
+const $=s=>document.querySelector(s);
+const main=$("#main");
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const RM=()=>matchMedia("(prefers-reduced-motion: reduce)").matches;
+const kid=()=>A.who==="hijo";
+function optsOf(q){if(q.adult)return kid()?q.child:q.adult;return q.opts.map(o=>[o[0],kid()&&o[2]?o[2]:o[1]])}
+function labelOf(id,v){const q=Q.find(x=>x.id===id);const o=optsOf(q).find(x=>x[0]===v);return o?o[1]:""}
+function titleOf(q){return kid()&&q.k?q.k:q.t}
+
+function header(){
+  const id=flow[i];const q=Q.find(x=>x.id===id);
+  $("#back").hidden=(i===0||id==="loading");
+  $("#barwrap").hidden=!(q||id==="loading");
+  $("#steplabel").innerHTML=q?`<b>${q.n}</b> / ${TOTAL}`:(id==="result"?"Su resultado":"");
+  setBar(id);
+  $("#app").removeAttribute("data-pres");
+}
+function prog(id){const q=Q.find(x=>x.id===id);return id==="loading"||id==="result"?1:(q?(q.n-.5)/TOTAL:0)}
+function setBar(id){const v=prog(id);$("#bar").style.transform="scaleX("+v+")";$("#barwrap").setAttribute("aria-valuenow",Math.round(v*100))}
+function render(){
+  obs.forEach(o=>o.disconnect());obs=[];
+  header();
+  const id=flow[i];
+  if(id==="intro")return intro();
+  if(id==="loading")return loading();
+  if(id==="result")return result();
+  return question(Q.find(x=>x.id===id));
+}
+function go(d){
+  if(busy)return;
+  let n=Math.max(0,Math.min(flow.length-1,i+d));
+  if(flow[n]==="loading"&&d<0)n--;
+  const cur=main.querySelector(".screen");
+  main.dataset.dir=d<0?"back":"fwd";
+  if(!$("#barwrap").hidden)setBar(flow[n]);
+  const swap=()=>{busy=false;i=n;render();window.scrollTo({top:0,behavior:"instant"});const h=main.querySelector("h1,h2");if(h){h.setAttribute("tabindex","-1");h.focus({preventScroll:true})}};
+  if(cur&&!RM()){busy=true;cur.classList.add("leaving");setTimeout(swap,150)}else swap();
+}
+$("#back").addEventListener("click",()=>go(-1));
+
+function intro(){
+  main.innerHTML=`<section class="screen intro">
+    <div class="dish"><img src="${IMG.petri}" alt="" width="720" height="717"><span class="scrim"></span><div class="label"><img src="${IMG.logoW}" alt="Normalibs® Bifidobacterium longum 35624™" width="460" height="85"></div></div>
+    <div class="eyebrow">Apunta a ti</div>
+    <h1>Encuentre su rutina Normalibs<sup>®</sup> en 1 minuto.</h1>
+    <button class="btn shine" id="start" type="button">Empezar</button>
+    <p class="note">Este cuestionario orienta, no diagnostica. Disponible en Costa Rica.</p>
+  </section>`;
+  $("#start").addEventListener("click",()=>go(1));
+}
+
+function question(q){
+  if(q.who){
+    main.innerHTML=`<section class="screen">
+      <div class="qhead"><h1 id="qh" class="qt">${esc(q.t)}</h1><p class="hint">${esc(q.h)}</p></div>
+      <div class="who" role="group" aria-labelledby="qh">
+        <button type="button" class="whoc" style="--i:0" data-v="yo" aria-pressed="${A.who==="yo"}"><img src="${IMG.woman}" alt="" width="600" height="750"><span class="wt"><small>Adultos</small><b>Para mí</b></span></button>
+        <button type="button" class="whoc" style="--i:1" data-v="hijo" aria-pressed="${A.who==="hijo"}"><img src="${IMG.kid}" alt="" width="600" height="750"><span class="wt"><small>Niños</small><b>Para mi hijo o hija</b></span></button>
+      </div>
+    </section>`;
+    main.querySelectorAll(".whoc").forEach(b=>b.addEventListener("click",()=>{
+      if(A.who!==b.dataset.v){A.q4=undefined}
+      A.who=b.dataset.v;main.querySelectorAll(".whoc").forEach(o=>o.setAttribute("aria-pressed",o===b));setTimeout(()=>go(1),RM()?0:260);
+    }));
+    return;
+  }
+  const multi=!!q.multi;const sel=multi?A.alarm:A[q.id];
+  main.innerHTML=`<section class="screen">
+    <div class="qhead"><h1 id="qh" class="qt">${esc(titleOf(q))}</h1>${q.h?`<p class="hint">${esc(q.h)}</p>`:""}</div>
+    <div class="opts" role="group" aria-labelledby="qh">
+      ${optsOf(q).map((o,ix)=>`<button type="button" class="opt" style="--i:${ix}" data-v="${o[0]}" ${multi?`role="checkbox" aria-checked="${sel.includes(o[0])}"`:`aria-pressed="${sel===o[0]}"`}><span class="dot" aria-hidden="true"></span><span>${esc(o[1])}</span></button>`).join("")}
+    </div>
+    ${multi?`<div class="safety">${ico("info")}<span>Nos ayuda a saber si conviene consultar primero con ${kid()?"su pediatra":"su médico"}.</span></div>
+    <div class="dock"><button class="btn" id="next" type="button" ${A.alarm.length?"":"disabled"}>Ver mi resultado</button></div>`:""}
+  </section>`;
+  main.querySelectorAll(".opt").forEach(b=>b.addEventListener("click",()=>{
+    const v=b.dataset.v;
+    if(multi){
+      let s=A.alarm;
+      if(v==="ninguno")s=s.includes("ninguno")?[]:["ninguno"];
+      else{s=s.filter(x=>x!=="ninguno");s=s.includes(v)?s.filter(x=>x!==v):[...s,v]}
+      A.alarm=s;main.querySelectorAll(".opt").forEach(o=>o.setAttribute("aria-checked",s.includes(o.dataset.v)));$("#next").disabled=!s.length;
+    }else{
+      A[q.id]=v;main.querySelectorAll(".opt").forEach(o=>o.setAttribute("aria-pressed",o.dataset.v===v));setTimeout(()=>go(1),RM()?0:260);
+    }
+  }));
+  if(multi)$("#next").addEventListener("click",()=>go(1));
+}
+
+function loading(){
+  main.innerHTML=`<section class="screen loading">
+    <div class="orb" aria-hidden="true"><img src="${IMG.petri}" alt="" width="720" height="717"></div>
+    <div class="qhead"><div class="eyebrow">Apunta a ti</div><h1 class="qt">Preparando ${kid()?"la rutina de su hijo o hija":"su rutina"}</h1></div>
+  </section>`;
+  setTimeout(()=>{if(flow[i]==="loading")go(1)},RM()?100:1300);
+}
+
+/* ---------- Data ---------- */
+const FOCUS={hinchazon:"la inflamación o hinchazón",molestias:"las molestias abdominales",ritmo:"los cambios en el ritmo intestinal",varias:"varias molestias a la vez"};
+const SEG={hinchazon:"inflamación",molestias:"molestias abdominales",ritmo:"ritmo intestinal",varias:"molestias combinadas"};
+const PRES={
+  capsulas:{name:"Cápsulas",aud:"Adultos",unit:"frascos",variant:"46664448442567",img:IMG.cap,once:48000,full:72000,save:24000,fee:24000,specs:["30 cápsulas · una al día · rinde 1 mes","Cápsula pequeña, fácil de tragar","No requiere refrigeración"]},
+  sobres:{name:"Sobres",aud:"Niños",unit:"cajas",variant:"46958985576647",img:IMG.sob,once:63000,full:94500,save:31500,fee:31500,specs:["30 sobres de 1.5 g · uno al día · rinde 1 mes","Polvo sabor vainilla, fácil de disolver","Se mezcla con bebidas o alimentos fríos"]}
+};
+const presKey=()=>kid()?"sobres":"capsulas";
+const kind=()=>A.alarm.some(x=>x!=="ninguno")?"alarm":(A.q3==="si"?"diag":"nodiag");
+const UTM=(pk,mode)=>"utm_source=quiz_normalibs&utm_medium=quiz&utm_campaign=apunta_a_ti&utm_content="+pk+"_"+mode;
+const checkoutUrl=(pk,mode,code)=>STORE+"/cart/"+PRES[pk].variant+":1?"+UTM(pk,mode)+(code?"&discount="+encodeURIComponent(code):"");
+const fraccUrl=pk=>STORE+"/pages/contact?"+UTM(pk,"fraccionado");
+const fmt=n=>"¢"+Math.round(n).toLocaleString("en-US").replace(/,/g,".");
+
+/* Food tips: [icon, title, text] */
+const TIPS={
+  adult:{
+    hinchazon:[["slow","Coma despacio","Masticar bien y sin prisa ayuda a tragar menos aire, que aumenta la sensación de hinchazón."],["soda","Modere gaseosas y chicles","Las burbujas y el chicle pueden sumar gases. Prefiera agua o infusiones."],["note","Lleve un diario de comidas","Anote qué come y cómo se siente para identificar qué le cae pesado."],["leaf","Pregunte por la dieta baja en FODMAP","A algunas personas con SII les ayuda, siempre guiada por un profesional."]],
+    molestias:[["clock","Coma a horas regulares","Evite saltarse comidas y prefiera porciones moderadas."],["fire","Identifique sus detonantes","En algunas personas, lo muy grasoso, picante o el exceso de café empeora las molestias."],["note","Lleve un diario de comidas","Le ayuda a conversar con su médico con información concreta."],["breath","Haga pausas para respirar","El estrés y el intestino están conectados. Unos minutos de calma antes de comer ayudan."]],
+    ritmo:[["leaf","Sume fibra poco a poco","Frutas, verduras, avena y leguminosas, aumentando de forma gradual."],["drop","Hidrátese durante el día","El agua acompaña a la fibra. Tenga una botella a mano."],["clock","Mantenga horarios","Comer y descansar a horas parecidas ayuda a ordenar el ritmo intestinal."],["walk","Muévase todos los días","Una caminata diaria favorece el movimiento intestinal."]],
+    varias:[["slow","Coma despacio","Sin prisa y masticando bien, sobre todo en las comidas principales."],["clock","Coma a horas regulares","Porciones moderadas y sin saltarse comidas."],["drop","Hidrátese durante el día","Prefiera agua o infusiones sobre gaseosas."],["note","Lleve un diario de comidas","Le ayuda a reconocer patrones y a conversarlo con su médico."]]
+  },
+  kid:{
+    base:[["clock","Comidas a horas fijas","Desayuno, almuerzo y cena a horas parecidas dan estabilidad a su pancita."],["drop","Agua durante el día","Una botella en la lonchera ayuda a que tome agua en la escuela."],["leaf","Frutas y verduras de a poco","Ofrézcalas seguido y sin forzar. La variedad ayuda más que la cantidad."],["walk","Juego activo","Correr y jugar todos los días también ayuda a su digestión."]]
+  }
+};
+const MOMENT_TIP={
+  comidas:["Cuando coma fuera de casa","Elija preparaciones sencillas (a la plancha, al horno) y porciones moderadas."],
+  trabajo:["En el trabajo","No se salte el almuerzo y tenga a mano una merienda que le siente bien."],
+  planes:["En viajes y planes","Mantenga su toma diaria de Normalibs<sup>®</sup> y sus horarios de comida lo más estables posible."],
+  estres:["En momentos de estrés","Cinco minutos de respiración lenta antes de comer le ayudan a comer con más calma."],
+  escuela:["En la escuela","Prepare una lonchera sencilla con alimentos que ya sabe que le sientan bien."],
+  comer:["Después de comer","Que coma sentado, sin pantallas y sin prisa. Evite que corra justo después."],
+  paseos:["En paseos y actividades","Lleve meriendas conocidas y agua para no improvisar."],
+  nervios:["En momentos de nervios","Rutinas predecibles y un momento tranquilo antes de comer le dan seguridad."]
+};
+
+function ico(n){
+  const P={info:'<circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.5"/>',pack:'<rect x="4" y="7" width="16" height="13" rx="2"/><path d="M4 11h16M9 7V4h6v3"/>',yoga:'<circle cx="12" cy="5" r="2"/><path d="M4 20c3-1 5-3 8-3s5 2 8 3M12 7v7M7 11l5 2 5-2"/>',doc:'<path d="M9 3h6v4H9zM6 5h12v16H6z"/><path d="M12 11v6M9 14h6"/>',lock:'<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/>',gift:'<rect x="4" y="9" width="16" height="11" rx="1.5"/><path d="M3 9h18M12 9v11M12 9c-2-4-6-4-6-1.5S12 9 12 9zM12 9c2-4 6-4 6-1.5S12 9 12 9z"/>',
+    sunrise:'<path d="M4 18h16M7 18a5 5 0 0110 0M12 4v4M5.6 9.6l1.4 1.4M18.4 9.6L17 11"/>',day:'<circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4"/>',moon:'<path d="M20 14.5A8 8 0 019.5 4a8 8 0 1010.5 10.5z"/>',
+    slow:'<circle cx="12" cy="12" r="8"/><path d="M12 8v4l2.5 2.5"/>',clock:'<circle cx="12" cy="12" r="8"/><path d="M12 7v5h4"/>',soda:'<path d="M8 3h8l-1 18H9z"/><path d="M8.5 8h7M11 12.5h.01M13 15.5h.01M11.5 18h.01"/>',note:'<path d="M6 3h9l3 3v15H6z"/><path d="M9 10h6M9 14h6M9 18h4"/>',leaf:'<path d="M5 19C5 10 11 5 20 4c0 9-5 15-14 15z"/><path d="M5 19l8-8"/>',fire:'<path d="M12 21a6 6 0 006-6c0-4-3-6-4-10-2 2-3 4-3 6-1-1-2-2-2-4-2 2-3 5-3 8a6 6 0 006 6z"/>',breath:'<path d="M3 9h11a3 3 0 10-3-3M3 15h15a3 3 0 11-3 3M3 12h8"/>',drop:'<path d="M12 3s6 7 6 11a6 6 0 01-12 0c0-4 6-11 6-11z"/>',walk:'<circle cx="13" cy="4" r="2"/><path d="M9 21l2-6 3 3v3M7 12l3-4 4 1 2 4M10 8l1 7"/>'};
+  return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[n]}</svg>`;
+}
+
+function routineBlock(p){
+  const k=kid();
+  const tips=k?TIPS.kid.base:TIPS.adult[A.q1];
+  const mt=MOMENT_TIP[A.q4];
+  const steps=k?[
+    ["sunrise","Mañana","Un sobre de Normalibs<sup>®</sup> Sobres","Mézclelo con una bebida o alimento frío del desayuno, como leche, yogur o jugo. Todos los días a la misma hora."],
+    ["day","Durante el día",mt[0],mt[1]],
+    ["moon","Noche","Cena tranquila","Una cena sencilla, sin pantallas, y un tiempo de calma antes de dormir."]
+  ]:[
+    ["sunrise","Mañana","Una cápsula de Normalibs<sup>®</sup>","Con el desayuno y un vaso de agua, todos los días a la misma hora."],
+    ["day","Durante el día",mt[0],mt[1]],
+    ["moon","Noche","Cena sin prisa","Prefiera una cena ligera y deje un tiempo antes de acostarse."]
+  ];
+  return `<section class="sec" aria-labelledby="rt-h">
+    <div class="sec-head rv"><div class="eyebrow">${k?"La rutina de su hijo o hija":"Su rutina diaria"}</div><h2 id="rt-h">Pequeños hábitos, todos los días.</h2></div>
+    <ol class="timeline rv">${steps.map((s,ix)=>`<li><span class="tic${ix===0?" main":""}">${ico(s[0])}</span><div><small>${s[1]}</small><h4>${s[2]}</h4><p>${s[3]}</p></div></li>`).join("")}</ol>
+    <div class="constancy rv"><span class="big">3</span><p><b>meses de uso continuo</b> es lo recomendado para Normalibs<sup>®</sup>. Justo lo que cubre el Plan Paciente 2+1.</p></div>
+    <div class="sec-head rv" style="margin-top:8px"><div class="eyebrow">Tips de alimentación</div><p class="sub">${k?"Para acompañar la digestión de su hijo o hija.":`Para ${FOCUS[A.q1]}.`}</p></div>
+    <div class="tips rv">
+      ${tips.map(t=>`<div class="tip"><span class="ti">${ico(t[0])}</span><b>${t[1]}</b><span>${t[2]}</span></div>`).join("")}
+      ${k?`<div class="tip wide"><span class="ti">${ico("info")}</span><div><b>Antes de cambiar su alimentación</b><span>Converse con su pediatra. Cada niño es distinto.</span></div></div>`:`<div class="tip wide"><span class="ti">${ico("info")}</span><div><b>Hable con un profesional</b><span>Un médico o nutricionista puede ajustar su alimentación a lo que usted necesita.</span></div></div>`}
+    </div>
+    <p class="fine rv">Consejos generales de bienestar. No reemplazan la orientación de su médico o nutricionista.</p>
+  </section>`;
+}
+
+function planBlock(p,pk){
+  return `<section class="plan sec" id="plan" aria-labelledby="plan-h">
+    <div class="sec-head rv"><div class="eyebrow">Plan Paciente 2+1</div><h2 id="plan-h">3 meses de Normalibs<sup>®</sup> <span class="pn-c">${p.name}</span> por el precio de 2.</h2>
+      <p class="sub">Compre 2 y le regalamos el tercero. Envío gratis a todo el país.</p><span class="save">Ahorre 33%</span></div>
+    <article class="tier hot rv">
+      <div class="tier-h"><span class="lvl">Pago único</span><span class="pop">Compra directa</span></div>
+      <h3>Normalibs<sup>®</sup> <span class="pn-c">${p.name}</span> · 3 ${p.unit}</h3>
+      <div class="price"><b data-n="${p.once}" aria-label="${fmt(p.once)}">${fmt(p.once)}</b><span>una vez</span></div>
+      <p class="was">Valor de 3 por separado: <s>${fmt(p.full)}</s> · Ahorre ${fmt(p.save)}</p>
+      <ul class="ticks2"><li>3 unidades por el precio de 2</li><li>Los 3 meses llegan de una vez</li></ul>
+      <a class="btn shine sq" href="${checkoutUrl(pk,"pago_unico")}" target="_blank" rel="noopener">Comprar 2+1<span class="sr"> (se abre en una pestaña nueva)</span></a>
+    </article>
+    <article class="tier rv">
+      <div class="tier-h"><span class="lvl">Plan fraccionado</span></div>
+      <h3>Normalibs<sup>®</sup> <span class="pn-c">${p.name}</span> · 3 ${p.unit} en 2 pagos</h3>
+      <div class="price"><b data-n="${p.fee}" aria-label="${fmt(p.fee)}">${fmt(p.fee)}</b><span>primer pago</span></div>
+      <div class="months"><div><b>PRIMER PAGO</b>${fmt(p.fee)}<br>Recibe 1 unidad</div><div><b>SEGUNDO PAGO</b>${fmt(p.fee)}<br>Recibe 2 · 1 de regalo</div></div>
+      <ul class="ticks2"><li>Sin intereses ni cargos adicionales</li><li>El segundo pago cuando usted decida</li></ul>
+      <a class="btn ghost sq" href="${fraccUrl(pk)}" target="_blank" rel="noopener">Solicitar plan fraccionado<span class="sr"> (se abre en una pestaña nueva)</span></a>
+    </article>
+    <button class="tease" type="button" id="toUnlock">${ico("gift")}Desbloquee ${COUPON.pct}% extra en su primer plan</button>
+    <ul class="benefits rv">
+      <li><span class="bi">${ico("pack")}</span><div><b>Desde su primer plan</b><span>Guía digital de bienestar digestivo, recordatorios de toma diaria y comunidad Normalibs<sup>®</sup>.</span></div></li>
+      <li><span class="bi">${ico("yoga")}</span><div><b>Al renovar su plan</b><span>Una clase de yoga mensual, cubierta por GoPharma Care.</span></div></li>
+      <li><span class="bi">${ico("doc")}</span><div><b>Al cumplir un año</b><span>Cita con nutricionista y cita médica de seguimiento, cubiertas por GoPharma Care.</span></div></li>
+    </ul>
+    <p class="fine">El pago único lo lleva directo al pago en gopharmacare.com. Precios en colones, impuestos incluidos. Disponible en Costa Rica.</p>
+  </section>`;
+}
+
+function unlockBlock(p,pk){
+  const done=lead.unlocked;
+  return `<section class="unlock" id="unlock" aria-labelledby="un-h">
+    <div class="eyebrow">Beneficio exclusivo del quiz</div>
+    <h2 id="un-h">${done?"Su beneficio está desbloqueado.":`Desbloquee ${COUPON.pct}% extra en su primer Plan 2+1.`}</h2>
+    <p class="sub">${done?"El botón lo lleva al pago con su código ya aplicado.":"Déjenos su correo y le enviamos su rutina, sus tips de alimentación y su código."}</p>
+    <div class="coupon${done?" revealed":" locked"}">${done?"":`<span class="lockic">${ico("lock")}</span>`}
+      <div class="pct">${COUPON.pct}%<small> EXTRA</small></div>
+      <div class="code" ${done?'id="code"':'aria-hidden="true"'}>${COUPON.code}</div>
+    </div>
+    ${done?`<div class="copyrow"><a class="btn light" href="${checkoutUrl(pk,"cupon",COUPON.code)}" target="_blank" rel="noopener">Comprar con mi ${COUPON.pct}%<span class="sr"> (se abre en una pestaña nueva)</span></a><button class="copy" type="button" id="copycode">Copiar</button></div>
+        <p class="sentto">Le enviamos su rutina y su código a ${esc(lead.email)}.</p>`
+    :`<ul class="gifts"><li>${COUPON.pct}% adicional en su primer Plan Paciente 2+1</li><li>Su rutina y sus tips de alimentación en su correo</li></ul>
+      <form id="uf" class="uform" novalidate>
+        <div class="field"><label for="email">Correo electrónico</label><input id="email" type="email" autocomplete="email" inputmode="email" value="${esc(lead.email)}" placeholder="nombre@correo.com" aria-describedby="e-email"><span class="err" id="e-email" aria-live="polite"></span></div>
+        <label class="consent" for="consent"><input type="checkbox" id="consent" aria-describedby="e-consent"><span>Acepto recibir correos de Normalibs<sup>®</sup> con mi rutina, mi código y novedades del Plan Paciente. Puedo darme de baja cuando quiera.</span></label>
+        <span class="err" id="e-consent" aria-live="polite"></span>
+        <button class="btn shine" type="submit">Desbloquear mi ${COUPON.pct}%</button>
+      </form>`}
+  </section>`;
+}
+
+function team(k,pk){
+  if(!CONFIG.showTeamPanel)return "";
+  const p=PRES[pk];
+  const tags=[["Para",kid()?"Hijo o hija (Sobres)":"Adulto (Cápsulas)"],["Segmento",SEG[A.q1]],["Momento",labelOf("q4",A.q4)],["Diagnóstico",labelOf("q3",A.q3)],["Señales de alarma",A.alarm.includes("ninguno")?"Ninguna":A.alarm.map(a=>labelOf("alarm",a)).join(", ")],["Correo",lead.email||"No desbloqueó"]];
+  const mt=MOMENT_TIP[A.q4][0].toLowerCase();
+  const seq=[
+    ["Inmediato · al desbloquear",`Su rutina Normalibs® ${p.name} y su ${COUPON.pct}% extra`,`Rutina diaria, tips de alimentación para ${FOCUS[A.q1]} y el código ${COUPON.code}.`],
+    ["Si no compra · día 1",`${kid()?"La rutina de su hijo o hija":"Su rutina"} para ${FOCUS[A.q1]} le está esperando`,`Un tip para ${mt} y el recordatorio del Plan 2+1: 3 meses por el precio de 2.`],
+    ["Si no compra · día 3","3 meses de constancia, en un solo plan",`El uso recomendado de Normalibs® es de 3 meses continuos. Empiece con el plan fraccionado: ${fmt(p.fee)} el primer pago.`],
+    ["Si no compra · día 7",`Su código ${COUPON.code} vence pronto`,`Último recordatorio: 3 por el precio de 2 y ${COUPON.pct}% extra en su primer plan.`]
+  ];
+  return `<details class="team"><summary>Vista del equipo · datos de este lead</summary>
+    <p>Así llega cada respuesta a la plataforma de email marketing y a Meta como segmento. Este panel no lo ve el usuario final.</p>
+    <div class="tags">${tags.map(t=>`<span>${t[0]}: <b>${esc(t[1])}</b></span>`).join("")}</div>
+    <p><strong>Secuencia de email marketing</strong> (se activa al desbloquear y se detiene cuando la persona compra):</p>
+    ${seq.map(m=>`<div class="mail"><small>${m[0]}</small><b>${esc(m[1])}</b><span>${esc(m[2])}</span></div>`).join("")}
+    <p>"Comprar 2+1" abre el pago de Shopify con el producto ya en el carrito y parámetros UTM. El ${COUPON.pct}% y el código son de ejemplo: hay que crearlos en Shopify.</p>
+  </details>`;
+}
+
+function result(){
+  const pk=presKey(),p=PRES[pk],k=kind();
+  $("#app").setAttribute("data-pres",pk);
+  const doc=kid()?"su pediatra":"su médico";
+  const alarmList=A.alarm.filter(x=>x!=="ninguno");
+  const note=k==="alarm"
+    ?`<div class="mdnote warn">${ico("info")}<p><b>Le recomendamos hablar pronto con ${doc}.</b> Mencionó: ${alarmList.map(a=>esc(labelOf("alarm",a)).toLowerCase()).join(", ")}.</p></div>`
+    :k==="nodiag"?`<div class="mdnote">${ico("info")}<p><b>Converse con ${doc}.</b> Solo un profesional de la salud puede confirmar la causa de ${FOCUS[A.q1]}.</p></div>`:"";
+  track("quiz_complete",{para:kid()?"hijo":"adulto",presentacion:pk,molestia:A.q1,momento:A.q4,diagnostico:A.q3,alarma:A.alarm.join(",")});
+  main.innerHTML=`<section class="screen result">
+      <div class="rhero"><div class="dish"><img src="${IMG.petri}" alt="" width="720" height="717"><span class="scrim"></span><div class="label"><img src="${IMG.logoW}" alt="Normalibs® Bifidobacterium longum 35624™" width="460" height="85"></div></div></div>
+      <div class="rhead">
+        <div class="eyebrow">Su recomendación</div>
+        <h1>${kid()?`La rutina de su hijo o hija es Normalibs<sup>®</sup> <span class="pn-c">${p.name}</span>.`:`Su rutina es Normalibs<sup>®</sup> <span class="pn-c">${p.name}</span>.`}</h1>
+      </div>
+      <div class="rbody">
+        ${routineBlock(p)}
+        <div class="sec"><div class="sec-head rv"><div class="eyebrow">${kid()?"Su presentación para niños":"Su presentación"}</div></div>
+          <article class="pcard rv"><div class="pimg"><img src="${p.img}" alt="Caja de Normalibs ${p.name}" width="420" height="${pk==="capsulas"?541:517}"></div>
+            <div class="pinfo"><span class="ptag">${p.aud}</span><h3>Normalibs<sup>®</sup> <span>${p.name}</span></h3><ul class="specs">${p.specs.map(s=>`<li>${esc(s)}</li>`).join("")}</ul></div></article>
+        </div>
+        ${planBlock(p,pk)}
+        ${unlockBlock(p,pk)}
+        ${k==="alarm"?`<p class="alarmline">${ico("info")}<span>Por los síntomas que mencionó, le recomendamos consultar pronto con ${doc}.</span></p>`:""}
+        <p class="legal">Contribuye al bienestar intestinal. Fraseo sujeto a validación regulatoria. Suplemento alimenticio. <strong>Este producto no es un medicamento.</strong> Consulte con ${doc}.</p>
+        ${team(k,pk)}
+        <button class="link" type="button" id="restart">Volver a empezar</button>
+      </div>
+    </section>`;
+  wire(pk);
+}
+function smooth(){return RM()?"auto":"smooth"}
+function wire(pk){
+  main.querySelectorAll('a[href*="gopharmacare.com"]').forEach(a=>a.addEventListener("click",()=>track("quiz_checkout_click",{presentacion:pk,url:a.href})));
+  $("#toUnlock").addEventListener("click",()=>{$("#unlock").scrollIntoView({behavior:smooth(),block:"start"});setTimeout(()=>{const e=$("#email");e&&e.focus({preventScroll:true})},450)});
+  reveal();
+  wireUnlock(pk);
+  $("#restart").addEventListener("click",()=>{Object.keys(A).forEach(k=>delete A[k]);A.alarm=[];lead={email:"",unlocked:false};i=0;render();window.scrollTo(0,0)});
+}
+function reveal(){
+  const els=[...main.querySelectorAll(".rv")];
+  if(RM()||!("IntersectionObserver" in window)){els.forEach(e=>e.classList.add("in"));return}
+  const o=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");o.unobserve(e.target);const b=e.target.querySelector(".price b[data-n]");if(b)countUp(b)}}),{rootMargin:"0px 0px -8% 0px"});
+  els.forEach(e=>o.observe(e));obs.push(o);
+  setTimeout(()=>els.forEach(e=>e.classList.add("in")),6000);
+}
+function countUp(b){
+  const n=+b.dataset.n,t0=performance.now(),D=900;
+  const f=t=>{const k=Math.min(1,(t-t0)/D),e=1-Math.pow(1-k,3);b.textContent=fmt(n*e);if(k<1)requestAnimationFrame(f)};
+  requestAnimationFrame(f);
+}
+function burst(host){
+  if(RM())return;
+  const c=document.createElement("canvas");c.className="fx";host.appendChild(c);
+  const r=host.getBoundingClientRect(),dpr=Math.min(2,devicePixelRatio||1);c.width=r.width*dpr;c.height=r.height*dpr;
+  let g=null;try{g=c.getContext("2d")}catch(e){}if(!g){c.remove();return}g.scale(dpr,dpr);
+  const cx=r.width/2,cy=Math.min(r.height*.4,240),cols=["#7EC3CF","#0E8C96","#FFFFFF","#E09A55","#9F8BE8","#F08DB4"];
+  const P=Array.from({length:90},()=>{const a=Math.random()*Math.PI*2,v=3+Math.random()*6;return{x:cx,y:cy,vx:Math.cos(a)*v,vy:Math.sin(a)*v-3,s:3+Math.random()*4,c:cols[Math.random()*cols.length|0],r:Math.random()*6,vr:(Math.random()-.5)*.3}});
+  const t0=performance.now();
+  const f=t=>{const k=(t-t0)/1600;g.clearRect(0,0,r.width,r.height);P.forEach(p=>{p.vy+=.18;p.vx*=.985;p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;g.save();g.globalAlpha=Math.max(0,1-k);g.translate(p.x,p.y);g.rotate(p.r);g.fillStyle=p.c;g.fillRect(-p.s/2,-p.s/2,p.s,p.s*.6);g.restore()});if(k<1)requestAnimationFrame(f);else c.remove()};
+  requestAnimationFrame(f);
+}
+function wireUnlock(pk){
+  const f=$("#uf");
+  if(f){
+    f.addEventListener("submit",e=>{
+      e.preventDefault();
+      const m=$("#email").value.trim(),ok=$("#consent").checked;let bad=false;
+      const set=(id,t)=>{$("#e-"+id).textContent=t;$("#"+id).setAttribute("aria-invalid",t?"true":"false");if(t)bad=true};
+      set("email",/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m)?"":"Escriba un correo válido, por ejemplo nombre@correo.com.");
+      set("consent",ok?"":"Marque la casilla para recibir su código por correo.");
+      if(bad){const f1=main.querySelector('[aria-invalid="true"]');f1&&f1.focus();return}
+      lead.email=m;lead.unlocked=true;
+      sendLead({email:m,consent:true,para:kid()?"hijo":"adulto",presentacion:pk,molestia:A.q1,momento:A.q4,diagnostico:A.q3,alarma:A.alarm,cupon:COUPON.code,fecha:new Date().toISOString()});
+      $("#unlock").outerHTML=unlockBlock(PRES[pk],pk);
+      const t=main.querySelector(".team");if(t&&CONFIG.showTeamPanel){const open=t.open;t.outerHTML=team(kind(),pk);if(open)main.querySelector(".team").open=true}
+      wireUnlock(pk);burst($("#unlock"));
+      $("#un-h").setAttribute("tabindex","-1");$("#un-h").focus({preventScroll:true});
+    });
+  }
+  const c=$("#copycode");
+  if(c)c.addEventListener("click",()=>{const done=()=>{c.textContent="Copiado"};const sel=()=>{const r=document.createRange();r.selectNodeContents($("#code"));const s=getSelection();s.removeAllRanges();s.addRange(r)};try{navigator.clipboard.writeText(COUPON.code).then(done,sel)}catch(e){sel()}});
+}
+
+render();
+})();
+</script>
+</body>
+</html>
