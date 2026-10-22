@@ -337,10 +337,11 @@ h1.qt{font-size:clamp(25px,7vw,30px);line-height:1.15}
 .mben li+li{border-top:1px solid var(--line)}
 .mi{flex:none;width:40px;height:40px;border-radius:50%;border:1.5px solid var(--head);display:grid;place-items:center}
 .jscreen .journey li{animation:up .6s var(--ease) both;animation-delay:calc(.15s + var(--i)*.12s)}
-.ugate{gap:18px;position:relative;padding-top:36px}
+.ugate{gap:18px;position:relative;justify-content:center;align-items:center;text-align:center;min-height:62vh}
+.ugate>*{width:100%}.ugate>.gpill{width:auto}
 .ugate>*{animation:up .55s var(--ease) both}
 .ugate>*:nth-child(2){animation-delay:.06s}.ugate>*:nth-child(3){animation-delay:.12s}.ugate>*:nth-child(4){animation-delay:.18s}
-.gpill{align-self:flex-start;font-size:13px;font-weight:600;color:var(--head);background:var(--soft);border-radius:99px;padding:6px 12px}
+.gpill{font-size:13px;font-weight:600;color:var(--head);background:var(--soft);border-radius:99px;padding:6px 12px}
 .gt{margin:0;font-size:clamp(30px,8.4vw,38px);line-height:1.12;font-weight:600;letter-spacing:-.01em;color:var(--head)}
 .gform{display:flex;flex-direction:column;gap:12px;margin-top:6px}
 .ginput{width:100%;min-height:56px;padding:12px 18px;border-radius:14px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:16px}
@@ -397,7 +398,6 @@ h1.qt{font-size:clamp(25px,7vw,30px);line-height:1.15}
   <main id="main"></main>
   <footer class="foot">
     <div class="logos"><img src="assets/innova-blanco.webp" alt="Innova · The way to health" width="348" height="84"><img src="assets/novonesis-blanco.webp" alt="Novonesis" width="300" height="38"></div>
-    <p class="legal">Normalibs<sup>®</sup> es un suplemento alimenticio.</p>
   </footer>
 </div>
 
@@ -589,10 +589,8 @@ function unlockScreen(){
       <label class="sr" for="email">Correo electrónico</label>
       <input id="email" class="ginput" type="email" autocomplete="email" inputmode="email" value="${esc(lead.email)}" placeholder="Su correo electrónico" aria-describedby="e-email">
       <span class="err" id="e-email" aria-live="polite"></span>
-      <button class="btn" type="submit">Desbloquear</button>
-      <p class="gfine">Al desbloquear acepta recibir correos de Normalibs<sup>®</sup>. Puede darse de baja cuando quiera.</p>
+      <button class="btn" type="submit">Enviar</button>
     </form>
-    <div class="gprod"><img src="${pk==="capsulas"?IMG.capb:IMG.sobb}" alt="Caja de Normalibs ${p.name}" width="${pk==="capsulas"?290:308}" height="${pk==="capsulas"?377:264}"></div>
   </section>`;
   $("#gf").addEventListener("submit",e=>{
     e.preventDefault();
