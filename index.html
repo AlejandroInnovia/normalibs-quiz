@@ -345,7 +345,12 @@ h1.qt{font-size:clamp(25px,7vw,30px);line-height:1.15}
 .ugate>*{width:100%}.ugate>.gpill{width:auto}
 .ugate>*{animation:up .55s var(--ease) both}
 .ugate>*:nth-child(2){animation-delay:.06s}.ugate>*:nth-child(3){animation-delay:.12s}.ugate>*:nth-child(4){animation-delay:.18s}
-.gpill{font-size:13px;font-weight:600;color:var(--head);background:var(--soft);border-radius:99px;padding:6px 12px}
+.gpill{font-size:13px;font-weight:700;color:#0A3A47;background:var(--aqua);border-radius:99px;padding:6px 12px}
+.hl{color:var(--accent-ink);white-space:nowrap;background:linear-gradient(transparent 60%,rgba(126,195,207,.5) 60%) no-repeat 0 0/100% 100%;padding:0 .06em;animation:mark .9s var(--ease) both .45s}
+@keyframes mark{from{background-size:0% 100%}to{background-size:100% 100%}}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .hl{color:var(--aqua);background-image:linear-gradient(transparent 62%,rgba(14,140,150,.55) 62%)}}
+:root[data-theme="dark"] .hl{color:var(--aqua);background-image:linear-gradient(transparent 62%,rgba(14,140,150,.55) 62%)}
+h1[tabindex="-1"]:focus,h2[tabindex="-1"]:focus{outline:none}
 .gt{margin:0;font-size:clamp(30px,8.4vw,38px);line-height:1.12;font-weight:600;letter-spacing:-.01em;color:var(--head)}
 .gform{display:flex;flex-direction:column;gap:12px;margin-top:6px}
 .ginput{width:100%;min-height:56px;padding:12px 18px;border-radius:14px;border:1.5px solid var(--field,#8A9699);background:var(--card);color:var(--ink);font:inherit;font-size:16px}
@@ -386,6 +391,14 @@ h1.qt{font-size:clamp(25px,7vw,30px);line-height:1.15}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .logos img{filter:none;opacity:.85}}
 :root[data-theme="dark"] .logos img{filter:none;opacity:.85}
 
+.whoscreen{justify-content:center}
+.whoscreen .whoc{aspect-ratio:3/5;max-height:54dvh;width:100%}
+.whoscreen .whoc img{object-position:50% 25%}
+.whoscreen .whoc .wt{left:clamp(12px,3vw,20px);right:clamp(12px,3vw,20px);bottom:clamp(12px,2.4dvh,22px)}
+.whoscreen .whoc b{font-size:clamp(16px,1.6dvh + 6px,22px)}
+.whoscreen .who{gap:clamp(10px,2vw,16px)}
+@media (max-aspect-ratio:1/2){.whoscreen .whoc{aspect-ratio:9/17}}
+@media (max-height:680px){.whoscreen .whoc{aspect-ratio:4/5}}
 /* ===== Responsive: el contenido se adapta al alto y ancho de la pantalla ===== */
 .app{min-height:100vh;min-height:100dvh}
 .intro,.meet,.ugate{justify-content:center}
@@ -558,7 +571,7 @@ function intro(){
 
 function question(q){
   if(q.who){
-    main.innerHTML=`<section class="screen">
+    main.innerHTML=`<section class="screen whoscreen">
       <div class="qhead"><h1 id="qh" class="qt">${esc(q.t)}</h1><p class="hint">${esc(q.h)}</p></div>
       <div class="who" role="group" aria-labelledby="qh">
         <button type="button" class="whoc" style="--i:0" data-v="yo" aria-pressed="${A.who==="yo"}"><img src="${IMG.woman}" alt="" width="600" height="750"><span class="wt"><small>Adultos</small><b>Para mí</b></span></button>
@@ -626,7 +639,7 @@ function unlockScreen(){
   const pk=presKey(),p=PRES[pk];
   main.innerHTML=`<section class="screen ugate" id="unlock">
     <span class="gpill">Ahorre ${COUPON.pct}% en su primer plan</span>
-    <h1 id="un-h" class="gt">Desbloquee ${COUPON.pct}% extra con su correo.</h1>
+    <h1 id="un-h" class="gt">Desbloquee <span class="hl">${COUPON.pct}% extra</span> con su correo.</h1>
     <form id="gf" class="gform" novalidate>
       <label class="sr" for="email">Correo electrónico</label>
       <input id="email" class="ginput" type="email" autocomplete="email" inputmode="email" value="${esc(lead.email)}" placeholder="Su correo electrónico" aria-describedby="e-email">
@@ -637,7 +650,7 @@ function unlockScreen(){
   $("#gf").addEventListener("submit",e=>{
     e.preventDefault();
     if(!validLead())return;
-    $("#un-h").textContent="Listo, su "+COUPON.pct+"% está desbloqueado.";
+    $("#un-h").innerHTML=`Listo, su <span class="hl">${COUPON.pct}%</span> está desbloqueado.`;
     $("#gf").querySelector("button").disabled=true;
     burst($("#unlock"));
     setTimeout(()=>go(1),RM()?300:1200);
