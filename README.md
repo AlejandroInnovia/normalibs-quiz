@@ -1,11 +1,15 @@
 # Quiz Normalibs® "Apunta a ti"
 
-Quiz de 4 preguntas que recomienda Normalibs® Cápsulas (adultos) o Sobres (niños), muestra una rutina diaria con tips de alimentación y lleva al pago del Plan Paciente 2+1 en GoPharma Care. Al final, la persona deja su correo para desbloquear un descuento extra.
+Quiz de 4 preguntas que recomienda Normalibs® Cápsulas (adultos) o Sobres (niños), Después de las preguntas muestra cómo actúa Normalibs® semana a semana y ofrece desbloquear 10% extra con el correo. El resultado incluye lo que más le afecta, tips de alimentación, su presentación y el Plan Paciente 2+1 en GoPharma Care (con el código ya aplicado si lo desbloqueó).
 
 - Un solo archivo `index.html` con HTML, CSS y JavaScript. No necesita compilación ni dependencias.
 - Única dependencia externa: la tipografía Montserrat desde Google Fonts.
 - Pensado primero para móvil, con modo claro y oscuro.
 - Revisado contra WCAG 2.2 AA (contraste, áreas táctiles, lectores de pantalla y movimiento reducido).
+
+## Flujo
+
+Inicio → 4 preguntas → "Normalibs® actúa de forma progresiva" → "Desbloquee 10% extra" (correo, se puede saltar) → resultado.
 
 ## Estructura
 
@@ -74,7 +78,7 @@ const CONFIG={
 ```
 
 Con esos campos se segmenta la secuencia de email marketing:
-- **Inmediato:** rutina y código.
+- **Inmediato:** recomendación, tips y código.
 - **Día 1:** recordatorio con sus síntomas.
 - **Día 3:** "3 meses de constancia".
 - **Día 7:** "su código vence pronto".
@@ -99,7 +103,7 @@ El quiz envía eventos a `window.dataLayer`, compatible con Google Tag Manager, 
 | Evento | Cuándo |
 |---|---|
 | `quiz_complete` | La persona llega al resultado. Incluye `para`, `presentacion`, `molestia_principal`, `momento`, `diagnostico` y `sintomas`. |
-| `quiz_lead` | Deja su correo y desbloquea el cupón. |
+| `quiz_lead` | Deja su correo y desbloquea el cupón (antes del resultado, o en el resultado si se lo saltó). |
 | `quiz_checkout_click` | Toca un botón que lleva a GoPharma Care. |
 
 ## Pendientes antes de lanzar

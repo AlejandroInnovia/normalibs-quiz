@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Quiz Apunta a ti de Normalibs®: encuentre su rutina y el Plan Paciente 2+1.">
+<meta name="description" content="Quiz Apunta a ti de Normalibs®: encuentre su presentación y el Plan Paciente 2+1.">
 <link rel="icon" href="assets/petri.webp">
 <title>Quiz Normalibs Apunta a ti</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -111,6 +111,20 @@ h1.qt{font-size:clamp(25px,7vw,30px);line-height:1.15}
 .dish .label img{position:static;animation:none;width:100%;height:auto;filter:drop-shadow(0 2px 10px rgba(0,0,0,.45))}
 .intro>*:not(.dish){animation:up .7s var(--ease) both}
 .intro>.eyebrow{animation-delay:.2s}.intro>h1{animation-delay:.3s}.intro>.sub{animation-delay:.4s}.intro>.chips{animation-delay:.5s}.intro>.btn{animation-delay:.6s}.intro>.note{animation-delay:.7s}
+.intro .sub{max-width:34ch}
+.hero-cta{display:flex;flex-direction:column;align-items:center;gap:14px;align-self:stretch}
+.hlink{display:inline-flex;align-items:center;gap:8px;min-height:44px;color:var(--head);font-weight:700;font-size:15px;text-decoration:none;border-bottom:1.5px solid currentColor;padding-bottom:2px;transition:gap .2s var(--ease)}
+.hlink:hover{gap:12px}
+.intro>.hero-cta{animation-delay:.5s}
+.dish{position:relative;width:min(78vw,320px);aspect-ratio:1;max-width:100%;margin-block:4px 6px;animation:pop .9s var(--spring) both}
+.dish img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;animation:spin 80s linear infinite;filter:drop-shadow(0 26px 34px rgba(10,58,71,.28))}
+.dish::before{content:"";position:absolute;inset:-14px;border-radius:50%;border:1px solid var(--aqua);opacity:.5;animation:breathe 4.5s ease-in-out 3}
+.dish::after{content:"";position:absolute;inset:-14px;border-radius:50%;border:1px solid var(--aqua);animation:ripple 4.5s ease-out 3 1.5s}
+.dish .scrim{position:absolute;inset:6%;border-radius:50%;background:radial-gradient(closest-side,rgba(10,58,71,.62),rgba(10,58,71,.28) 60%,rgba(10,58,71,0));pointer-events:none}
+.dish .label{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:0 12%;text-align:center;color:#fff}
+.dish .label img{position:static;animation:none;width:100%;height:auto;filter:drop-shadow(0 2px 10px rgba(0,0,0,.45))}
+.intro>*:not(.dish){animation:up .7s var(--ease) both}
+.intro>.eyebrow{animation-delay:.2s}.intro>h1{animation-delay:.3s}.intro>.sub{animation-delay:.4s}.intro>.chips{animation-delay:.5s}.intro>.btn{animation-delay:.6s}.intro>.note{animation-delay:.7s}
 .chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
 .chips span{font-size:12px;font-weight:600;padding:7px 12px;border-radius:99px;background:var(--soft);color:var(--head)}
 .note{font-size:12.5px;color:var(--muted);margin:0}
@@ -203,6 +217,21 @@ h1.qt{font-size:clamp(25px,7vw,30px);line-height:1.15}
 .constancy b{color:#fff}
 
 /* Routine */
+.journey{list-style:none;margin:0;padding:22px 18px 6px;background:var(--card);border:1px solid var(--line);border-radius:28px;display:flex;flex-direction:column}
+.journey li{display:grid;grid-template-columns:40px 1fr;gap:14px;padding-bottom:22px;position:relative}
+.journey li:not(:last-child)::before{content:"";position:absolute;left:19.5px;top:42px;bottom:2px;width:1px;background:var(--line)}
+.journey .ji{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--head);display:grid;place-items:center;color:var(--head);background:var(--card)}
+.journey .ji svg{width:21px;height:21px}
+.journey .jt{margin:7px 0 4px;font-size:16px;font-weight:700;color:var(--head);line-height:1.35}
+.journey .jt sup{font-size:.55em;color:var(--muted);font-weight:600}
+.journey .jb{display:inline-block;vertical-align:1px;margin-right:8px;font-size:12px;font-weight:700;color:#fff;background:var(--accent);border-radius:99px;padding:3px 10px;white-space:nowrap}
+.journey .jd{margin:0;font-size:14px;color:var(--muted);line-height:1.5}
+.journey .jstat{margin:2px 0 4px;display:flex;align-items:center;gap:10px}
+.journey .jstat b{font-size:40px;font-weight:800;line-height:1;letter-spacing:-.02em;color:var(--accent-ink);font-variant-numeric:tabular-nums}
+.journey .jstat span{font-size:15px;font-weight:700;color:var(--head);line-height:1.2;max-width:12ch}
+.journey .jstat sup{font-size:.55em;color:var(--muted)}
+.journey li.st .jt{margin-bottom:2px}
+.jnote{margin:0;font-size:11.5px;color:var(--muted);line-height:1.5}
 .timeline{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
 .timeline li{display:grid;grid-template-columns:46px 1fr;gap:14px;padding-bottom:20px;position:relative}
 .timeline li:not(:last-child)::before{content:"";position:absolute;left:22px;top:46px;bottom:4px;width:2px;background:linear-gradient(var(--accent),var(--line))}
@@ -296,6 +325,15 @@ h1.qt{font-size:clamp(25px,7vw,30px);line-height:1.15}
 .rdock.off{transform:translateY(110%);opacity:0;pointer-events:none}
 .alarmline{display:flex;gap:8px;align-items:flex-start;margin:0;font-size:12.5px;line-height:1.45;color:var(--warn)}
 .alarmline svg{flex:none;width:16px;height:16px;margin-top:1px}
+.jscreen .journey li{animation:up .6s var(--ease) both;animation-delay:calc(.15s + var(--i)*.12s)}
+.ugate{gap:14px}
+.unlock.gate{margin-inline:0;border-radius:32px;padding:30px 18px 20px}
+.unlock.gate h1{color:#fff;text-align:center;font-size:clamp(24px,6.6vw,30px);line-height:1.15;margin:0}
+.unlock.gate>*{animation:up .6s var(--ease) both}
+.unlock.gate>*:nth-child(2){animation-delay:.08s}.unlock.gate>*:nth-child(3){animation-delay:.16s}.unlock.gate>*:nth-child(4){animation-delay:.24s}.unlock.gate>*:nth-child(5){animation-delay:.32s}
+.applied{display:flex;gap:8px;align-items:center;margin:0;font-size:13.5px;color:var(--aqua)}
+.applied svg{flex:none}
+.save.x{margin-top:-2px}
 .legal{font-size:11.5px;color:var(--muted);line-height:1.5;margin:0}
 .legal strong{font-weight:700}
 .team{border-radius:20px;background:var(--soft);color:var(--head);padding:4px 16px}
@@ -324,6 +362,7 @@ h1.qt{font-size:clamp(25px,7vw,30px);line-height:1.15}
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
 <body>
+
 <div class="app" id="app">
   <header class="top">
     <div class="toprow">
@@ -340,7 +379,7 @@ h1.qt{font-size:clamp(25px,7vw,30px);line-height:1.15}
   <main id="main"></main>
   <footer class="foot">
     <div class="logos"><img src="assets/innova-blanco.webp" alt="Innova · The way to health" width="348" height="84"><img src="assets/novonesis-blanco.webp" alt="Novonesis" width="300" height="38"></div>
-    <p class="legal">Suplemento alimenticio. <strong>Este producto no es un medicamento.</strong> Este cuestionario orienta y no reemplaza la evaluación de un profesional de la salud. Consulte con su médico.</p>
+    <p class="legal">Normalibs<sup>®</sup> es un suplemento alimenticio.</p>
   </footer>
 </div>
 
@@ -395,7 +434,7 @@ function deriveFocus(){
   const g=new Set(s.map(x=>({dolor:"molestias",distension:"hinchazon",gases:"hinchazon",heces:"ritmo",urgencia:"ritmo",estres:"molestias"})[x]));
   A.q1=g.size===1?[...g][0]:"varias";
 }
-const flow=["intro",...Q.map(q=>q.id),"loading","result"];
+const flow=["intro",...Q.map(q=>q.id),"journey","unlock","loading","result"];
 let i=0;const A={alarm:[]};let lead={email:"",unlocked:false};let obs=[];let busy=false;
 
 const $=s=>document.querySelector(s);
@@ -410,18 +449,20 @@ function titleOf(q){return kid()&&q.k?q.k:q.t}
 function header(){
   const id=flow[i];const q=Q.find(x=>x.id===id);
   $("#back").hidden=(i===0||id==="loading");
-  $("#barwrap").hidden=!(q||id==="loading");
-  $("#steplabel").innerHTML=q?`<b>${q.n}</b> / ${TOTAL}`:(id==="result"?"Su resultado":"");
+  $("#barwrap").hidden=!(q||id==="journey"||id==="unlock"||id==="loading");
+  $("#steplabel").innerHTML=q?`<b>${q.n}</b> / ${TOTAL}`:(id==="unlock"?"Último paso":id==="result"?"Su resultado":"");
   setBar(id);
   $("#app").removeAttribute("data-pres");
 }
-function prog(id){const q=Q.find(x=>x.id===id);return id==="loading"||id==="result"?1:(q?(q.n-.5)/TOTAL:0)}
+function prog(id){const q=Q.find(x=>x.id===id);return id==="loading"||id==="result"?1:id==="journey"?.9:id==="unlock"?.96:(q?(q.n-.5)/TOTAL:0)}
 function setBar(id){const v=prog(id);$("#bar").style.transform="scaleX("+v+")";$("#barwrap").setAttribute("aria-valuenow",Math.round(v*100))}
 function render(){
   obs.forEach(o=>o.disconnect());obs=[];
   header();
   const id=flow[i];
   if(id==="intro")return intro();
+  if(id==="journey")return journey();
+  if(id==="unlock")return unlockScreen();
   if(id==="loading")return loading();
   if(id==="result")return result();
   return question(Q.find(x=>x.id===id));
@@ -439,12 +480,17 @@ function go(d){
 $("#back").addEventListener("click",()=>go(-1));
 
 function intro(){
+  const plan=STORE+"/collections/plan-paciente-2-1?utm_source=quiz_normalibs&utm_medium=quiz&utm_campaign=apunta_a_ti&utm_content=inicio";
   main.innerHTML=`<section class="screen intro">
     <div class="dish"><img src="${IMG.petri}" alt="" width="720" height="717"><span class="scrim"></span><div class="label"><img src="${IMG.logoW}" alt="Normalibs® Bifidobacterium longum 35624™" width="460" height="85"></div></div>
     <div class="eyebrow">Apunta a ti</div>
-    <h1>Encuentre su rutina Normalibs<sup>®</sup> en 1 minuto.</h1>
-    <button class="btn shine" id="start" type="button">Empezar</button>
-    <p class="note">Este cuestionario orienta, no diagnostica. Disponible en Costa Rica.</p>
+    <h1>Bienestar intestinal, hecho a su medida.</h1>
+    <p class="sub">Responda 4 preguntas y conozca la presentación de Normalibs<sup>®</sup> indicada para usted o su hijo.</p>
+    <div class="hero-cta">
+      <button class="btn shine" id="start" type="button">Empezar el quiz</button>
+      <a class="hlink" href="${plan}" target="_blank" rel="noopener">Ver Plan Paciente<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span class="sr"> (se abre en una pestaña nueva)</span></a>
+    </div>
+    <p class="note">Disponible en Costa Rica.</p>
   </section>`;
   $("#start").addEventListener("click",()=>go(1));
 }
@@ -470,7 +516,7 @@ function question(q){
     <div class="opts" role="group" aria-labelledby="qh">
       ${optsOf(q).map((o,ix)=>`<button type="button" class="opt" style="--i:${ix}" data-v="${o[0]}" ${multi?`role="checkbox" aria-checked="${sel.includes(o[0])}"`:`aria-pressed="${sel===o[0]}"`}><span class="dot" aria-hidden="true"></span><span>${esc(o[1])}</span></button>`).join("")}
     </div>
-    ${multi?`<div class="dock"><button class="btn" id="next" type="button" ${A.alarm.length?"":"disabled"}>Ver mi resultado</button></div>`:""}
+    ${multi?`<div class="dock"><button class="btn" id="next" type="button" ${A.alarm.length?"":"disabled"}>Continuar</button></div>`:""}
   </section>`;
   main.querySelectorAll(".opt").forEach(b=>b.addEventListener("click",()=>{
     const v=b.dataset.v;
@@ -486,10 +532,63 @@ function question(q){
   if(multi)$("#next").addEventListener("click",()=>{deriveFocus();go(1)});
 }
 
+const STEPS=[
+  ["micro","Semana 1","","Equilibrio de su microbiota","Ayuda a corregir la disbiosis intestinal, favoreciendo el equilibrio de la microbiota natural."],
+  ["flow","Semanas 2 y 3","","Menos gases y un ritmo más regular","Mejor consistencia de las heces y menos urgencia o sensación de evacuación incompleta."],
+  ["belly","Semana 4 · Corto plazo","62%","alivio adecuado","Mejoría del dolor abdominal y la distensión."],
+  ["whole","3 meses · Largo plazo","97%","reporta efectos positivos","Mejora la gravedad de los síntomas en los 4 subtipos de Síndrome de Intestino Irritable."]
+];
+function journey(){
+  const k=kid();
+  main.innerHTML=`<section class="screen jscreen">
+    <div class="qhead"><div class="eyebrow">${k?"El recorrido de su hijo o hija":"Su recorrido"}</div><h1 class="qt">Normalibs<sup>®</sup> actúa de forma progresiva.</h1>
+      <p class="hint">${k?"Un sobre al día, mezclado con una bebida o alimento frío.":"Una cápsula al día, todos los días a la misma hora."}</p></div>
+    <ol class="journey">${STEPS.map((s,ix)=>`<li style="--i:${ix}"${s[2]?' class="st"':''}><span class="ji">${ico(s[0])}</span><div><p class="jt"><span class="jb">${s[1]}</span>${s[2]?"":`${s[3]}`}</p>${s[2]?`<p class="jstat"><b>${s[2]}</b><span>${s[3]}</span></p>`:""}<p class="jd">${s[4]}</p></div></li>`).join("")}</ol>
+    <div class="dock"><button class="btn shine" id="next" type="button">Continuar</button></div>
+  </section>`;
+  $("#next").addEventListener("click",()=>go(1));
+}
+function unlockScreen(){
+  main.innerHTML=`<section class="screen ugate">
+    <div class="unlock gate" id="unlock">
+      <div class="eyebrow">Beneficio exclusivo del quiz</div>
+      <h1 id="un-h">Desbloquee ${COUPON.pct}% extra en su primer Plan Paciente 2+1.</h1>
+      <p class="sub">Déjenos su correo y le enviamos su recomendación, sus tips de alimentación y su código.</p>
+      <div class="coupon locked"><span class="lockic">${ico("lock")}</span><div class="pct">${COUPON.pct}%<small> EXTRA</small></div><div class="code" aria-hidden="true">${COUPON.code}</div></div>
+      <form id="gf" class="uform" novalidate>
+        <div class="field"><label for="email">Correo electrónico</label><input id="email" type="email" autocomplete="email" inputmode="email" value="${esc(lead.email)}" placeholder="nombre@correo.com" aria-describedby="e-email"><span class="err" id="e-email" aria-live="polite"></span></div>
+        <label class="consent" for="consent"><input type="checkbox" id="consent" aria-describedby="e-consent"><span>Acepto recibir correos de Normalibs<sup>®</sup> con mi recomendación, mi código y novedades del Plan Paciente. Puedo darme de baja cuando quiera.</span></label>
+        <span class="err" id="e-consent" aria-live="polite"></span>
+        <button class="btn shine" type="submit">Desbloquear y ver mi resultado</button>
+      </form>
+    </div>
+    <button class="link" type="button" id="skip">Continuar sin descuento</button>
+  </section>`;
+  $("#skip").addEventListener("click",()=>go(1));
+  $("#gf").addEventListener("submit",e=>{
+    e.preventDefault();
+    if(!validLead())return;
+    const c=main.querySelector(".coupon");c.className="coupon revealed";c.querySelector(".lockic").remove();c.querySelector(".code").removeAttribute("aria-hidden");
+    $("#un-h").textContent="Listo, su "+COUPON.pct+"% está desbloqueado.";
+    $("#gf").querySelector("button").disabled=true;
+    burst($("#unlock"));
+    setTimeout(()=>go(1),RM()?300:1400);
+  });
+}
+function validLead(){
+  const m=$("#email").value.trim(),ok=$("#consent").checked;let bad=false;
+  const set=(id,t)=>{$("#e-"+id).textContent=t;$("#"+id).setAttribute("aria-invalid",t?"true":"false");if(t)bad=true};
+  set("email",/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m)?"":"Escriba un correo válido, por ejemplo nombre@correo.com.");
+  set("consent",ok?"":"Marque la casilla para recibir su código por correo.");
+  if(bad){const f1=main.querySelector('[aria-invalid="true"]');f1&&f1.focus();return false}
+  lead.email=m;lead.unlocked=true;onLead();return true;
+}
+function onLead(){sendLead({email:lead.email,consent:true,para:kid()?"hijo":"adulto",presentacion:presKey(),molestia_principal:A.q1,momento:A.q4,diagnostico:A.q3,sintomas:A.alarm,cupon:COUPON.code,fecha:new Date().toISOString()})}
+
 function loading(){
   main.innerHTML=`<section class="screen loading">
     <div class="orb" aria-hidden="true"><img src="${IMG.petri}" alt="" width="720" height="717"></div>
-    <div class="qhead"><div class="eyebrow">Apunta a ti</div><h1 class="qt">Preparando ${kid()?"la rutina de su hijo o hija":"su rutina"}</h1></div>
+    <div class="qhead"><div class="eyebrow">Apunta a ti</div><h1 class="qt">Preparando ${kid()?"la recomendación para su hijo o hija":"su recomendación"}</h1></div>
   </section>`;
   setTimeout(()=>{if(flow[i]==="loading")go(1)},RM()?100:1300);
 }
@@ -528,13 +627,13 @@ const MOMENT_TIP={
   escuela:["En la escuela","Prepare una lonchera sencilla con alimentos que ya sabe que le sientan bien."],
   comer:["Después de comer","Que coma sentado, sin pantallas y sin prisa. Evite que corra justo después."],
   paseos:["En paseos y actividades","Lleve meriendas conocidas y agua para no improvisar."],
-  nervios:["En momentos de nervios","Rutinas predecibles y un momento tranquilo antes de comer le dan seguridad."]
+  nervios:["En momentos de nervios","Horarios predecibles y un momento tranquilo antes de comer le dan seguridad."]
 };
 
 function ico(n){
   const P={info:'<circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.5"/>',pack:'<rect x="4" y="7" width="16" height="13" rx="2"/><path d="M4 11h16M9 7V4h6v3"/>',yoga:'<circle cx="12" cy="5" r="2"/><path d="M4 20c3-1 5-3 8-3s5 2 8 3M12 7v7M7 11l5 2 5-2"/>',doc:'<path d="M9 3h6v4H9zM6 5h12v16H6z"/><path d="M12 11v6M9 14h6"/>',lock:'<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/>',gift:'<rect x="4" y="9" width="16" height="11" rx="1.5"/><path d="M3 9h18M12 9v11M12 9c-2-4-6-4-6-1.5S12 9 12 9zM12 9c2-4 6-4 6-1.5S12 9 12 9z"/>',
     sunrise:'<path d="M4 18h16M7 18a5 5 0 0110 0M12 4v4M5.6 9.6l1.4 1.4M18.4 9.6L17 11"/>',day:'<circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4"/>',moon:'<path d="M20 14.5A8 8 0 019.5 4a8 8 0 1010.5 10.5z"/>',
-    slow:'<circle cx="12" cy="12" r="8"/><path d="M12 8v4l2.5 2.5"/>',clock:'<circle cx="12" cy="12" r="8"/><path d="M12 7v5h4"/>',soda:'<path d="M8 3h8l-1 18H9z"/><path d="M8.5 8h7M11 12.5h.01M13 15.5h.01M11.5 18h.01"/>',note:'<path d="M6 3h9l3 3v15H6z"/><path d="M9 10h6M9 14h6M9 18h4"/>',leaf:'<path d="M5 19C5 10 11 5 20 4c0 9-5 15-14 15z"/><path d="M5 19l8-8"/>',fire:'<path d="M12 21a6 6 0 006-6c0-4-3-6-4-10-2 2-3 4-3 6-1-1-2-2-2-4-2 2-3 5-3 8a6 6 0 006 6z"/>',breath:'<path d="M3 9h11a3 3 0 10-3-3M3 15h15a3 3 0 11-3 3M3 12h8"/>',drop:'<path d="M12 3s6 7 6 11a6 6 0 01-12 0c0-4 6-11 6-11z"/>',check:'<path d="M5 12.5l4.5 4.5L19 7.5"/>',walk:'<circle cx="13" cy="4" r="2"/><path d="M9 21l2-6 3 3v3M7 12l3-4 4 1 2 4M10 8l1 7"/>'};
+    slow:'<circle cx="12" cy="12" r="8"/><path d="M12 8v4l2.5 2.5"/>',clock:'<circle cx="12" cy="12" r="8"/><path d="M12 7v5h4"/>',soda:'<path d="M8 3h8l-1 18H9z"/><path d="M8.5 8h7M11 12.5h.01M13 15.5h.01M11.5 18h.01"/>',note:'<path d="M6 3h9l3 3v15H6z"/><path d="M9 10h6M9 14h6M9 18h4"/>',leaf:'<path d="M5 19C5 10 11 5 20 4c0 9-5 15-14 15z"/><path d="M5 19l8-8"/>',fire:'<path d="M12 21a6 6 0 006-6c0-4-3-6-4-10-2 2-3 4-3 6-1-1-2-2-2-4-2 2-3 5-3 8a6 6 0 006 6z"/>',breath:'<path d="M3 9h11a3 3 0 10-3-3M3 15h15a3 3 0 11-3 3M3 12h8"/>',drop:'<path d="M12 3s6 7 6 11a6 6 0 01-12 0c0-4 6-11 6-11z"/>',check:'<path d="M5 12.5l4.5 4.5L19 7.5"/>',micro:'<circle cx="12" cy="12" r="3"/><circle cx="12" cy="5.5" r="2.3"/><circle cx="12" cy="18.5" r="2.3"/><circle cx="5.8" cy="8.8" r="2.3"/><circle cx="18.2" cy="8.8" r="2.3"/><circle cx="5.8" cy="15.2" r="2.3"/><circle cx="18.2" cy="15.2" r="2.3"/>',belly:'<path d="M9 3c-3 3-4 6-4 9a7 7 0 0014 0c0-3-1.5-5-4-6"/><path d="M12 9a3 3 0 103 3"/>',flow:'<path d="M3 9c2.5-2 4.5-2 7 0s4.5 2 7 0 3-1 4-1M3 15c2.5-2 4.5-2 7 0s4.5 2 7 0 3-1 4-1"/>',whole:'<circle cx="12" cy="5" r="2.2"/><path d="M12 7.5v6M6 10.5l6 2 6-2M9 21l3-7.5 3 7.5"/>',walk:'<circle cx="13" cy="4" r="2"/><path d="M9 21l2-6 3 3v3M7 12l3-4 4 1 2 4M10 8l1 7"/>'};
   return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[n]}</svg>`;
 }
 
@@ -544,37 +643,24 @@ const SYM_TIP={
   distension:["Hinchazón o llenura","Coma despacio y modere gaseosas y chicles.","Hinchazón o llenura","Que coma sentado, despacio y sin pantallas."],
   gases:["Gases en exceso","Observe si leguminosas, cebolla o repollo aumentan los gases.","Gases en exceso","Ofrezca de a poco los alimentos que suelen dar gases."],
   heces:["Heces muy duras o muy líquidas","Hidrátese durante el día y sume fibra de forma gradual.","Heces muy duras o muy líquidas","Agua en la lonchera y frutas o verduras de a poco."],
-  urgencia:["Urgencia o evacuación incompleta","Mantenga horarios regulares de comida y de ir al baño.","Urgencia o evacuación incompleta","Rutinas fijas para comer y para ir al baño, sin apuros."],
+  urgencia:["Urgencia o evacuación incompleta","Mantenga horarios regulares de comida y de ir al baño.","Urgencia o evacuación incompleta","Horarios fijos para comer y para ir al baño, sin apuros."],
   estres:["Estrés o cansancio digestivo","Unos minutos de respiración lenta antes de comer ayudan.","Nervios o cansancio digestivo","Un momento tranquilo antes de comer le da seguridad."]
 };
 const MOMENT_TXT={comidas:"cuando come fuera de casa",trabajo:"en el trabajo",planes:"en viajes o planes sociales",estres:"en momentos de estrés",escuela:"en la escuela o el colegio",comer:"después de comer",paseos:"en paseos o actividades",nervios:"en momentos de nervios"};
 function symBlock(){
   const k=kid(),sel=A.alarm.filter(x=>x!=="ninguno"&&SYM_TIP[x]);
-  const head=`<div class="sec-head rv"><div class="eyebrow">Lo que nos contó</div><h2>${sel.length?(k?"Esto es lo que más le afecta a su hijo o hija.":"Esto es lo que más le afecta."):"Su rutina le acompaña día a día."}</h2>
+  const head=`<div class="sec-head rv"><div class="eyebrow">Lo que nos contó</div><h2>${sel.length?(k?"Esto es lo que más le afecta a su hijo o hija.":"Esto es lo que más le afecta."):"Normalibs<sup>®</sup> le acompaña día a día."}</h2>
     <p class="sub">Lo nota sobre todo ${MOMENT_TXT[A.q4]||esc(labelOf("q4",A.q4).toLowerCase())}.</p></div>`;
   const items=sel.map(x=>{const t=SYM_TIP[x];return `<li><span class="sk">${ico("check")}</span><div><b>${t[k?2:0]}</b><span>${t[k?3:1]}</span></div></li>`}).join("");
-  return `<section class="sec">${head}${sel.length?`<ul class="symlist rv">${items}</ul>`:""}
-    <p class="symnote rv">Normalibs<sup>®</sup> con <em>Bifidobacterium longum</em> 35624™ contribuye al bienestar intestinal, en una toma al día.*</p></section>`;
+  return `<section class="sec">${head}${sel.length?`<ul class="symlist rv">${items}</ul>`:""}</section>`;
 }
 
 function routineBlock(p){
   const k=kid();
   const tips=k?TIPS.kid.base:TIPS.adult[A.q1];
-  const mt=MOMENT_TIP[A.q4];
-  const steps=k?[
-    ["sunrise","Mañana","Un sobre de Normalibs<sup>®</sup> Sobres","Mézclelo con una bebida o alimento frío del desayuno, como leche, yogur o jugo. Todos los días a la misma hora."],
-    ["day","Durante el día",mt[0],mt[1]],
-    ["moon","Noche","Cena tranquila","Una cena sencilla, sin pantallas, y un tiempo de calma antes de dormir."]
-  ]:[
-    ["sunrise","Mañana","Una cápsula de Normalibs<sup>®</sup>","Con el desayuno y un vaso de agua, todos los días a la misma hora."],
-    ["day","Durante el día",mt[0],mt[1]],
-    ["moon","Noche","Cena sin prisa","Prefiera una cena ligera y deje un tiempo antes de acostarse."]
-  ];
   return `<section class="sec" aria-labelledby="rt-h">
-    <div class="sec-head rv"><div class="eyebrow">${k?"La rutina de su hijo o hija":"Su rutina diaria"}</div><h2 id="rt-h">Pequeños hábitos, todos los días.</h2></div>
-    <ol class="timeline rv">${steps.map((s,ix)=>`<li><span class="tic${ix===0?" main":""}">${ico(s[0])}</span><div><small>${s[1]}</small><h4>${s[2]}</h4><p>${s[3]}</p></div></li>`).join("")}</ol>
     <div class="constancy rv"><span class="big">3</span><p><b>meses de uso continuo</b> es lo recomendado para Normalibs<sup>®</sup>. Justo lo que cubre el Plan Paciente 2+1.</p></div>
-    <div class="sec-head rv" style="margin-top:8px"><div class="eyebrow">Tips de alimentación</div><p class="sub">${k?"Para acompañar la digestión de su hijo o hija.":`Para ${FOCUS[A.q1]}.`}</p></div>
+    <div class="sec-head rv"><div class="eyebrow">Tips de alimentación</div><h2 id="rt-h">Pequeños hábitos que suman.</h2><p class="sub">${k?"Para acompañar la digestión de su hijo o hija.":`Para ${FOCUS[A.q1]}.`}</p></div>
     <div class="tips rv">
       ${tips.map(t=>`<div class="tip"><span class="ti">${ico(t[0])}</span><b>${t[1]}</b><span>${t[2]}</span></div>`).join("")}
       ${k?`<div class="tip wide"><span class="ti">${ico("info")}</span><div><b>Antes de cambiar su alimentación</b><span>Converse con su pediatra. Cada niño es distinto.</span></div></div>`:`<div class="tip wide"><span class="ti">${ico("info")}</span><div><b>Hable con un profesional</b><span>Un médico o nutricionista puede ajustar su alimentación a lo que usted necesita.</span></div></div>`}
@@ -586,14 +672,15 @@ function routineBlock(p){
 function planBlock(p,pk){
   return `<section class="plan sec" id="plan" aria-labelledby="plan-h">
     <div class="sec-head rv"><div class="eyebrow">Plan Paciente 2+1</div><h2 id="plan-h">3 meses de Normalibs<sup>®</sup> <span class="pn-c">${p.name}</span> por el precio de 2.</h2>
-      <p class="sub">Compre 2 y le regalamos el tercero. Envío gratis a todo el país.</p><span class="save">Ahorre 33%</span></div>
+      <p class="sub">Compre 2 y le regalamos el tercero. Envío gratis a todo el país.</p><span class="save">Ahorre 33%</span>${lead.unlocked?`<span class="save x">+ ${COUPON.pct}% con ${COUPON.code}</span>`:""}</div>
     <article class="tier hot rv">
       <div class="tier-h"><span class="lvl">Pago único</span><span class="pop">Compra directa</span></div>
       <h3>Normalibs<sup>®</sup> <span class="pn-c">${p.name}</span> · 3 ${p.unit}</h3>
       <div class="price"><b data-n="${p.once}" aria-label="${fmt(p.once)}">${fmt(p.once)}</b><span>una vez</span></div>
       <p class="was">Valor de 3 por separado: <s>${fmt(p.full)}</s> · Ahorre ${fmt(p.save)}</p>
       <ul class="ticks2"><li>3 unidades por el precio de 2</li><li>Los 3 meses llegan de una vez</li></ul>
-      <a class="btn shine sq" href="${checkoutUrl(pk,"pago_unico")}" target="_blank" rel="noopener">Comprar 2+1<span class="sr"> (se abre en una pestaña nueva)</span></a>
+      ${lead.unlocked?`<p class="applied">${ico("gift")}<span>Con su código <b>${COUPON.code}</b>: <b>${fmt(p.once*(1-COUPON.pct/100))}</b></span></p>`:""}
+      <a class="btn shine sq" href="${lead.unlocked?checkoutUrl(pk,"cupon",COUPON.code):checkoutUrl(pk,"pago_unico")}" target="_blank" rel="noopener">Comprar 2+1<span class="sr"> (se abre en una pestaña nueva)</span></a>
     </article>
     <article class="tier rv">
       <div class="tier-h"><span class="lvl">Plan fraccionado</span></div>
@@ -603,7 +690,7 @@ function planBlock(p,pk){
       <ul class="ticks2"><li>Sin intereses ni cargos adicionales</li><li>El segundo pago cuando usted decida</li></ul>
       <a class="btn ghost sq" href="${fraccUrl(pk)}" target="_blank" rel="noopener">Solicitar plan fraccionado<span class="sr"> (se abre en una pestaña nueva)</span></a>
     </article>
-    <button class="tease" type="button" id="toUnlock">${ico("gift")}Desbloquee ${COUPON.pct}% extra en su primer plan</button>
+    ${lead.unlocked?"":`<button class="tease" type="button" id="toUnlock">${ico("gift")}Desbloquee ${COUPON.pct}% extra en su primer plan</button>`}
     <ul class="benefits rv">
       <li><span class="bi">${ico("pack")}</span><div><b>Desde su primer plan</b><span>Guía digital de bienestar digestivo, recordatorios de toma diaria y comunidad Normalibs<sup>®</sup>.</span></div></li>
       <li><span class="bi">${ico("yoga")}</span><div><b>Al renovar su plan</b><span>Una clase de yoga mensual, cubierta por GoPharma Care.</span></div></li>
@@ -618,17 +705,17 @@ function unlockBlock(p,pk){
   return `<section class="unlock" id="unlock" aria-labelledby="un-h">
     <div class="eyebrow">Beneficio exclusivo del quiz</div>
     <h2 id="un-h">${done?"Su beneficio está desbloqueado.":`Desbloquee ${COUPON.pct}% extra en su primer Plan 2+1.`}</h2>
-    <p class="sub">${done?"El botón lo lleva al pago con su código ya aplicado.":"Déjenos su correo y le enviamos su rutina, sus tips de alimentación y su código."}</p>
+    <p class="sub">${done?"El botón lo lleva al pago con su código ya aplicado.":"Déjenos su correo y le enviamos su recomendación, sus tips de alimentación y su código."}</p>
     <div class="coupon${done?" revealed":" locked"}">${done?"":`<span class="lockic">${ico("lock")}</span>`}
       <div class="pct">${COUPON.pct}%<small> EXTRA</small></div>
       <div class="code" ${done?'id="code"':'aria-hidden="true"'}>${COUPON.code}</div>
     </div>
     ${done?`<div class="copyrow"><a class="btn light" href="${checkoutUrl(pk,"cupon",COUPON.code)}" target="_blank" rel="noopener">Comprar con mi ${COUPON.pct}%<span class="sr"> (se abre en una pestaña nueva)</span></a><button class="copy" type="button" id="copycode">Copiar</button></div>
-        <p class="sentto">Le enviamos su rutina y su código a ${esc(lead.email)}.</p>`
-    :`<ul class="gifts"><li>${COUPON.pct}% adicional en su primer Plan Paciente 2+1</li><li>Su rutina y sus tips de alimentación en su correo</li></ul>
+        <p class="sentto">Le enviamos su recomendación y su código a ${esc(lead.email)}.</p>`
+    :`<ul class="gifts"><li>${COUPON.pct}% adicional en su primer Plan Paciente 2+1</li><li>Su recomendación y sus tips de alimentación en su correo</li></ul>
       <form id="uf" class="uform" novalidate>
         <div class="field"><label for="email">Correo electrónico</label><input id="email" type="email" autocomplete="email" inputmode="email" value="${esc(lead.email)}" placeholder="nombre@correo.com" aria-describedby="e-email"><span class="err" id="e-email" aria-live="polite"></span></div>
-        <label class="consent" for="consent"><input type="checkbox" id="consent" aria-describedby="e-consent"><span>Acepto recibir correos de Normalibs<sup>®</sup> con mi rutina, mi código y novedades del Plan Paciente. Puedo darme de baja cuando quiera.</span></label>
+        <label class="consent" for="consent"><input type="checkbox" id="consent" aria-describedby="e-consent"><span>Acepto recibir correos de Normalibs<sup>®</sup> con mi recomendación, mi código y novedades del Plan Paciente. Puedo darme de baja cuando quiera.</span></label>
         <span class="err" id="e-consent" aria-live="polite"></span>
         <button class="btn shine" type="submit">Desbloquear mi ${COUPON.pct}%</button>
       </form>`}
@@ -641,8 +728,8 @@ function team(k,pk){
   const tags=[["Para",kid()?"Hijo o hija (Sobres)":"Adulto (Cápsulas)"],["Segmento",SEG[A.q1]],["Momento",labelOf("q4",A.q4)],["Diagnóstico",labelOf("q3",A.q3)],["Síntomas",A.alarm.includes("ninguno")?"Ninguna":A.alarm.map(a=>labelOf("alarm",a)).join(", ")],["Correo",lead.email||"No desbloqueó"]];
   const mt=MOMENT_TIP[A.q4][0].toLowerCase();
   const seq=[
-    ["Inmediato · al desbloquear",`Su rutina Normalibs® ${p.name} y su ${COUPON.pct}% extra`,`Rutina diaria, tips de alimentación para ${FOCUS[A.q1]} y el código ${COUPON.code}.`],
-    ["Si no compra · día 1",`${kid()?"La rutina de su hijo o hija":"Su rutina"} para ${FOCUS[A.q1]} le está esperando`,`Un tip para ${mt} y el recordatorio del Plan 2+1: 3 meses por el precio de 2.`],
+    ["Inmediato · al desbloquear",`Su recomendación: Normalibs® ${p.name} y su ${COUPON.pct}% extra`,`Su recorrido, tips de alimentación para ${FOCUS[A.q1]} y el código ${COUPON.code}.`],
+    ["Si no compra · día 1",`${kid()?"La recomendación para su hijo o hija":"Su recomendación"} para ${FOCUS[A.q1]} le está esperando`,`Un tip para ${mt} y el recordatorio del Plan 2+1: 3 meses por el precio de 2.`],
     ["Si no compra · día 3","3 meses de constancia, en un solo plan",`El uso recomendado de Normalibs® es de 3 meses continuos. Empiece con el plan fraccionado: ${fmt(p.fee)} el primer pago.`],
     ["Si no compra · día 7",`Su código ${COUPON.code} vence pronto`,`Último recordatorio: 3 por el precio de 2 y ${COUPON.pct}% extra en su primer plan.`]
   ];
@@ -663,12 +750,11 @@ function result(){
   const note=k==="alarm"
     ?`<div class="mdnote warn">${ico("info")}<p><b>Le recomendamos hablar pronto con ${doc}.</b> Mencionó: ${alarmList.map(a=>esc(labelOf("alarm",a)).toLowerCase()).join(", ")}.</p></div>`
     :k==="nodiag"?`<div class="mdnote">${ico("info")}<p><b>Converse con ${doc}.</b> Solo un profesional de la salud puede confirmar la causa de ${FOCUS[A.q1]}.</p></div>`:"";
-  track("quiz_complete",{para:kid()?"hijo":"adulto",presentacion:pk,molestia_principal:A.q1,momento:A.q4,diagnostico:A.q3,sintomas:A.alarm.join(",")});
   main.innerHTML=`<section class="screen result">
       <div class="rhero"><div class="dish"><img src="${IMG.petri}" alt="" width="720" height="717"><span class="scrim"></span><div class="label"><img src="${IMG.logoW}" alt="Normalibs® Bifidobacterium longum 35624™" width="460" height="85"></div></div></div>
       <div class="rhead">
-        <div class="eyebrow">Su recomendación</div>
-        <h1>${kid()?`La rutina de su hijo o hija es Normalibs<sup>®</sup> <span class="pn-c">${p.name}</span>.`:`Su rutina es Normalibs<sup>®</sup> <span class="pn-c">${p.name}</span>.`}</h1>
+        <div class="eyebrow">Su resultado</div>
+        <h1>${kid()?`La recomendación para su hijo o hija es Normalibs<sup>®</sup> <span class="pn-c">${p.name}</span>.`:`Su recomendación es Normalibs<sup>®</sup> <span class="pn-c">${p.name}</span>.`}</h1>
       </div>
       <div class="rbody">
         ${symBlock()}
@@ -678,20 +764,20 @@ function result(){
             <div class="pinfo"><span class="ptag">${p.aud}</span><h3>Normalibs<sup>®</sup> <span>${p.name}</span></h3><ul class="specs">${p.specs.map(s=>`<li>${esc(s)}</li>`).join("")}</ul></div></article>
         </div>
         ${planBlock(p,pk)}
-        ${unlockBlock(p,pk)}
-        <p class="legal">*Contribuye al bienestar intestinal. Fraseo sujeto a validación regulatoria. Suplemento alimenticio. <strong>Este producto no es un medicamento.</strong> Consulte con ${doc}.</p>
+        ${lead.unlocked?"":unlockBlock(p,pk)}
         ${team(k,pk)}
         <button class="link" type="button" id="restart">Volver a empezar</button>
       </div>
     </section>`;
+  track("quiz_complete",{para:kid()?"hijo":"adulto",presentacion:pk,molestia_principal:A.q1,momento:A.q4,diagnostico:A.q3,sintomas:A.alarm.join(","),email:!!lead.email});
   wire(pk);
 }
 function smooth(){return RM()?"auto":"smooth"}
 function wire(pk){
-  main.querySelectorAll('a[href*="gopharmacare.com"]').forEach(a=>a.addEventListener("click",()=>track("quiz_checkout_click",{presentacion:pk,url:a.href})));
-  $("#toUnlock").addEventListener("click",()=>{$("#unlock").scrollIntoView({behavior:smooth(),block:"start"});setTimeout(()=>{const e=$("#email");e&&e.focus({preventScroll:true})},450)});
+  $("#toUnlock")&&$("#toUnlock").addEventListener("click",()=>{$("#unlock").scrollIntoView({behavior:smooth(),block:"start"});setTimeout(()=>{const e=$("#email");e&&e.focus({preventScroll:true})},450)});
   reveal();
   wireUnlock(pk);
+  main.querySelectorAll('a[href*="gopharmacare.com"]').forEach(a=>a.addEventListener("click",()=>track("quiz_checkout_click",{presentacion:pk,url:a.href})));
   $("#restart").addEventListener("click",()=>{Object.keys(A).forEach(k=>delete A[k]);A.alarm=[];lead={email:"",unlocked:false};i=0;render();window.scrollTo(0,0)});
 }
 function reveal(){
@@ -722,13 +808,8 @@ function wireUnlock(pk){
   if(f){
     f.addEventListener("submit",e=>{
       e.preventDefault();
-      const m=$("#email").value.trim(),ok=$("#consent").checked;let bad=false;
-      const set=(id,t)=>{$("#e-"+id).textContent=t;$("#"+id).setAttribute("aria-invalid",t?"true":"false");if(t)bad=true};
-      set("email",/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m)?"":"Escriba un correo válido, por ejemplo nombre@correo.com.");
-      set("consent",ok?"":"Marque la casilla para recibir su código por correo.");
-      if(bad){const f1=main.querySelector('[aria-invalid="true"]');f1&&f1.focus();return}
-      lead.email=m;lead.unlocked=true;
-      sendLead({email:m,consent:true,para:kid()?"hijo":"adulto",presentacion:pk,molestia_principal:A.q1,momento:A.q4,diagnostico:A.q3,sintomas:A.alarm,cupon:COUPON.code,fecha:new Date().toISOString()});
+      if(!validLead())return;
+      $("#plan").outerHTML=planBlock(PRES[pk],pk);main.querySelectorAll("#plan .rv").forEach(x=>x.classList.add("in"));
       $("#unlock").outerHTML=unlockBlock(PRES[pk],pk);
       const t=main.querySelector(".team");if(t&&CONFIG.showTeamPanel){const open=t.open;t.outerHTML=team(kind(),pk);if(open)main.querySelector(".team").open=true}
       wireUnlock(pk);burst($("#unlock"));
