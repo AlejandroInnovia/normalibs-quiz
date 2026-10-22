@@ -9,7 +9,7 @@ Quiz de 4 preguntas que recomienda Normalibs® Cápsulas (adultos) o Sobres (ni�
 
 ## Flujo
 
-Inicio → 4 preguntas → "Normalibs® actúa de forma progresiva" → "Desbloquee 10% extra" (correo, se puede saltar) → resultado.
+Inicio → 4 preguntas → "Conozca Normalibs® Cápsulas/Sobres" → "Normalibs® actúa de forma progresiva" → "Desbloquee 10% extra" (correo obligatorio) → resultado.
 
 ## Estructura
 
@@ -23,6 +23,8 @@ normalibs-quiz/
     ├── para-mi-hijo.webp           Foto "Para mi hijo o hija"
     ├── normalibs-capsulas.webp     Caja de Cápsulas
     ├── normalibs-sobres.webp       Caja de Sobres
+    ├── normalibs-capsulas-caja.webp  Caja de Cápsulas recortada (pantalla "Conozca")
+    ├── normalibs-sobres-caja.webp    Caja de Sobres recortada (pantalla "Conozca")
     ├── normalibs-logo.webp         Logo en color (modo claro)
     ├── normalibs-logo-blanco.webp  Logo blanco (modo oscuro y portada)
     ├── innova-blanco.webp          Logo Innova
@@ -103,7 +105,7 @@ El quiz envía eventos a `window.dataLayer`, compatible con Google Tag Manager, 
 | Evento | Cuándo |
 |---|---|
 | `quiz_complete` | La persona llega al resultado. Incluye `para`, `presentacion`, `molestia_principal`, `momento`, `diagnostico` y `sintomas`. |
-| `quiz_lead` | Deja su correo y desbloquea el cupón (antes del resultado, o en el resultado si se lo saltó). |
+| `quiz_lead` | Deja su correo y desbloquea el cupón. |
 | `quiz_checkout_click` | Toca un botón que lleva a GoPharma Care. |
 
 ## Pendientes antes de lanzar

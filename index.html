@@ -325,6 +325,19 @@ h1.qt{font-size:clamp(25px,7vw,30px);line-height:1.15}
 .rdock.off{transform:translateY(110%);opacity:0;pointer-events:none}
 .alarmline{display:flex;gap:8px;align-items:flex-start;margin:0;font-size:12.5px;line-height:1.45;color:var(--warn)}
 .alarmline svg{flex:none;width:16px;height:16px;margin-top:1px}
+.meet{gap:20px}
+.mprod{position:relative;width:min(240px,62vw);aspect-ratio:1;margin:22px auto 26px;display:grid;place-items:center}
+.mhalo{position:absolute;inset:-9%;border-radius:50%;overflow:hidden;opacity:.45;animation:spin 60s linear 1}
+.mhalo img{width:100%;height:100%;object-fit:cover}
+.mdisc{position:relative;overflow:hidden;width:88%;aspect-ratio:1;border-radius:50%;background:#fff;display:grid;place-items:center;box-shadow:0 24px 48px -24px rgba(10,58,71,.55);animation:pop .8s var(--spring) both .15s}
+.mdisc img{width:62%;height:62%;object-fit:contain}
+.mben{background:var(--card);border:1px solid var(--line);border-radius:28px;padding:18px 18px 8px}
+.mlab{margin:0 0 6px;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.mlab i{text-transform:none;letter-spacing:0;font-size:13px}
+.mben ul{list-style:none;margin:0;padding:0}
+.mben li{display:flex;gap:14px;align-items:center;padding:10px 0;font-size:15.5px;font-weight:600;color:var(--head);animation:up .6s var(--ease) both;animation-delay:calc(.3s + var(--i)*.12s)}
+.mben li+li{border-top:1px solid var(--line)}
+.mi{flex:none;width:40px;height:40px;border-radius:50%;border:1.5px solid var(--head);display:grid;place-items:center}
 .jscreen .journey li{animation:up .6s var(--ease) both;animation-delay:calc(.15s + var(--i)*.12s)}
 .ugate{gap:14px}
 .unlock.gate{margin-inline:0;border-radius:32px;padding:30px 18px 20px}
@@ -385,7 +398,7 @@ h1.qt{font-size:clamp(25px,7vw,30px);line-height:1.15}
 
 <script>
 (function(){
-const IMG={petri:"assets/petri.webp",woman:"assets/para-mi.webp",kid:"assets/para-mi-hijo.webp",cap:"assets/normalibs-capsulas.webp",sob:"assets/normalibs-sobres.webp",logo:"assets/normalibs-logo.webp",logoW:"assets/normalibs-logo-blanco.webp"};
+const IMG={petri:"assets/petri.webp",woman:"assets/para-mi.webp",kid:"assets/para-mi-hijo.webp",cap:"assets/normalibs-capsulas.webp",sob:"assets/normalibs-sobres.webp",capb:"assets/normalibs-capsulas-caja.webp",sobb:"assets/normalibs-sobres-caja.webp",logo:"assets/normalibs-logo.webp",logoW:"assets/normalibs-logo-blanco.webp"};
 /* ====== CONFIGURACIÓN (editar aquí) ====== */
 const CONFIG={
   store:"https://gopharmacare.com",
@@ -434,7 +447,7 @@ function deriveFocus(){
   const g=new Set(s.map(x=>({dolor:"molestias",distension:"hinchazon",gases:"hinchazon",heces:"ritmo",urgencia:"ritmo",estres:"molestias"})[x]));
   A.q1=g.size===1?[...g][0]:"varias";
 }
-const flow=["intro",...Q.map(q=>q.id),"journey","unlock","loading","result"];
+const flow=["intro",...Q.map(q=>q.id),"meet","journey","unlock","loading","result"];
 let i=0;const A={alarm:[]};let lead={email:"",unlocked:false};let obs=[];let busy=false;
 
 const $=s=>document.querySelector(s);
@@ -449,18 +462,19 @@ function titleOf(q){return kid()&&q.k?q.k:q.t}
 function header(){
   const id=flow[i];const q=Q.find(x=>x.id===id);
   $("#back").hidden=(i===0||id==="loading");
-  $("#barwrap").hidden=!(q||id==="journey"||id==="unlock"||id==="loading");
+  $("#barwrap").hidden=!(q||id==="meet"||id==="journey"||id==="unlock"||id==="loading");
   $("#steplabel").innerHTML=q?`<b>${q.n}</b> / ${TOTAL}`:(id==="unlock"?"Último paso":id==="result"?"Su resultado":"");
   setBar(id);
   $("#app").removeAttribute("data-pres");
 }
-function prog(id){const q=Q.find(x=>x.id===id);return id==="loading"||id==="result"?1:id==="journey"?.9:id==="unlock"?.96:(q?(q.n-.5)/TOTAL:0)}
+function prog(id){const q=Q.find(x=>x.id===id);return id==="loading"||id==="result"?1:id==="meet"?.86:id==="journey"?.91:id==="unlock"?.96:(q?(q.n-.5)/TOTAL:0)}
 function setBar(id){const v=prog(id);$("#bar").style.transform="scaleX("+v+")";$("#barwrap").setAttribute("aria-valuenow",Math.round(v*100))}
 function render(){
   obs.forEach(o=>o.disconnect());obs=[];
   header();
   const id=flow[i];
   if(id==="intro")return intro();
+  if(id==="meet")return meet();
   if(id==="journey")return journey();
   if(id==="unlock")return unlockScreen();
   if(id==="loading")return loading();
@@ -538,6 +552,19 @@ const STEPS=[
   ["belly","Semana 4 · Corto plazo","62%","alivio adecuado","Mejoría del dolor abdominal y la distensión."],
   ["whole","3 meses · Largo plazo","97%","reporta efectos positivos","Mejora la gravedad de los síntomas en los 4 subtipos de Síndrome de Intestino Irritable."]
 ];
+function meet(){
+  const pk=presKey(),p=PRES[pk],k=kid();
+  $("#app").setAttribute("data-pres",pk);
+  const ben=[["flow","Regular el ritmo intestinal"],["belly","Disminuir la hinchazón y el dolor abdominal"],["micro","Equilibrar la microbiota intestinal"]];
+  main.innerHTML=`<section class="screen meet">
+    <div class="qhead"><div class="eyebrow">${k?"Para su hijo o hija":"Para usted"}</div><h1 class="qt">Conozca Normalibs<sup>®</sup><br><span class="pn-c">${p.name}</span></h1></div>
+    <div class="mprod"><span class="mhalo" aria-hidden="true"><img src="${IMG.petri}" alt="" width="720" height="717"></span><span class="mdisc"><img src="${pk==="capsulas"?IMG.capb:IMG.sobb}" alt="Caja de Normalibs ${p.name}" width="${pk==="capsulas"?290:308}" height="${pk==="capsulas"?377:264}"></span></div>
+    <div class="mben"><p class="mlab">Ayuda a</p>
+      <ul>${ben.map((b,ix)=>`<li style="--i:${ix}"><span class="mi">${ico(b[0])}</span>${b[1]}</li>`).join("")}</ul></div>
+    <div class="dock"><button class="btn shine" id="next" type="button">Continuar</button></div>
+  </section>`;
+  $("#next").addEventListener("click",()=>go(1));
+}
 function journey(){
   const k=kid();
   main.innerHTML=`<section class="screen jscreen">
@@ -562,9 +589,7 @@ function unlockScreen(){
         <button class="btn shine" type="submit">Desbloquear y ver mi resultado</button>
       </form>
     </div>
-    <button class="link" type="button" id="skip">Continuar sin descuento</button>
   </section>`;
-  $("#skip").addEventListener("click",()=>go(1));
   $("#gf").addEventListener("submit",e=>{
     e.preventDefault();
     if(!validLead())return;
