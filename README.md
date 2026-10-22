@@ -9,7 +9,7 @@ Quiz de 4 preguntas que recomienda Normalibs® Cápsulas (adultos) o Sobres (ni�
 
 ## Flujo
 
-Inicio → 4 preguntas → "Conozca Normalibs® Cápsulas/Sobres" → "Normalibs® actúa de forma progresiva" → "Desbloquee 10% extra" (correo obligatorio) → resultado.
+Inicio → 4 preguntas → "Conozca Normalibs® Cápsulas/Sobres" → "Normalibs® actúa de forma progresiva" → "Desbloquee 10% extra" (solo el correo, sin casilla) → resultado.
 
 ## Estructura
 
@@ -112,6 +112,6 @@ El quiz envía eventos a `window.dataLayer`, compatible con Google Tag Manager, 
 
 - [ ] Crear el código `QUIZ10` en Shopify.
 - [ ] Conectar `leadEndpoint` a la plataforma de email y armar la secuencia.
-- [ ] Revisar con Legal el texto de consentimiento del formulario (Ley 8968, datos de salud).
+- [ ] Revisar con Legal el consentimiento implícito del formulario ("Al desbloquear acepta recibir correos…"), según la Ley 8968.
 - [ ] Validar con Regulatorio el fraseo de beneficio y los tips de alimentación.
 - [ ] Instalar GTM o Pixel en la página donde se publique el quiz.

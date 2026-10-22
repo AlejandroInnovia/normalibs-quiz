@@ -326,11 +326,9 @@ h1.qt{font-size:clamp(25px,7vw,30px);line-height:1.15}
 .alarmline{display:flex;gap:8px;align-items:flex-start;margin:0;font-size:12.5px;line-height:1.45;color:var(--warn)}
 .alarmline svg{flex:none;width:16px;height:16px;margin-top:1px}
 .meet{gap:20px}
-.mprod{position:relative;width:min(240px,62vw);aspect-ratio:1;margin:22px auto 26px;display:grid;place-items:center}
-.mhalo{position:absolute;inset:-9%;border-radius:50%;overflow:hidden;opacity:.45;animation:spin 60s linear 1}
-.mhalo img{width:100%;height:100%;object-fit:cover}
-.mdisc{position:relative;overflow:hidden;width:88%;aspect-ratio:1;border-radius:50%;background:#fff;display:grid;place-items:center;box-shadow:0 24px 48px -24px rgba(10,58,71,.55);animation:pop .8s var(--spring) both .15s}
-.mdisc img{width:62%;height:62%;object-fit:contain}
+.mprod{position:relative;width:min(260px,70vw);aspect-ratio:1;margin:0 auto;display:grid;place-items:center}
+.mdisc{width:100%;aspect-ratio:1;border-radius:32px;background:#fff;display:grid;place-items:center;border:1px solid var(--line)}
+.mdisc img{width:70%;height:70%;object-fit:contain}
 .mben{background:var(--card);border:1px solid var(--line);border-radius:28px;padding:18px 18px 8px}
 .mlab{margin:0 0 6px;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .mlab i{text-transform:none;letter-spacing:0;font-size:13px}
@@ -339,11 +337,18 @@ h1.qt{font-size:clamp(25px,7vw,30px);line-height:1.15}
 .mben li+li{border-top:1px solid var(--line)}
 .mi{flex:none;width:40px;height:40px;border-radius:50%;border:1.5px solid var(--head);display:grid;place-items:center}
 .jscreen .journey li{animation:up .6s var(--ease) both;animation-delay:calc(.15s + var(--i)*.12s)}
-.ugate{gap:14px}
-.unlock.gate{margin-inline:0;border-radius:32px;padding:30px 18px 20px}
-.unlock.gate h1{color:#fff;text-align:center;font-size:clamp(24px,6.6vw,30px);line-height:1.15;margin:0}
-.unlock.gate>*{animation:up .6s var(--ease) both}
-.unlock.gate>*:nth-child(2){animation-delay:.08s}.unlock.gate>*:nth-child(3){animation-delay:.16s}.unlock.gate>*:nth-child(4){animation-delay:.24s}.unlock.gate>*:nth-child(5){animation-delay:.32s}
+.ugate{gap:18px;position:relative;padding-top:36px}
+.ugate>*{animation:up .55s var(--ease) both}
+.ugate>*:nth-child(2){animation-delay:.06s}.ugate>*:nth-child(3){animation-delay:.12s}.ugate>*:nth-child(4){animation-delay:.18s}
+.gpill{align-self:flex-start;font-size:13px;font-weight:600;color:var(--head);background:var(--soft);border-radius:99px;padding:6px 12px}
+.gt{margin:0;font-size:clamp(30px,8.4vw,38px);line-height:1.12;font-weight:600;letter-spacing:-.01em;color:var(--head)}
+.gform{display:flex;flex-direction:column;gap:12px;margin-top:6px}
+.ginput{width:100%;min-height:56px;padding:12px 18px;border-radius:14px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:16px}
+.ginput:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 3px var(--soft)}
+.ginput[aria-invalid="true"]{border-color:var(--warn)}
+.gfine{margin:0;font-size:12px;color:var(--muted);text-align:center}
+.gprod{margin-top:auto;align-self:center;width:min(220px,58vw);aspect-ratio:1;border-radius:28px;background:#fff;border:1px solid var(--line);display:grid;place-items:center}
+.gprod img{width:70%;height:70%;object-fit:contain}
 .applied{display:flex;gap:8px;align-items:center;margin:0;font-size:13.5px;color:var(--aqua)}
 .applied svg{flex:none}
 .save.x{margin-top:-2px}
@@ -558,7 +563,7 @@ function meet(){
   const ben=[["flow","Regular el ritmo intestinal"],["belly","Disminuir la hinchazón y el dolor abdominal"],["micro","Equilibrar la microbiota intestinal"]];
   main.innerHTML=`<section class="screen meet">
     <div class="qhead"><div class="eyebrow">${k?"Para su hijo o hija":"Para usted"}</div><h1 class="qt">Conozca Normalibs<sup>®</sup><br><span class="pn-c">${p.name}</span></h1></div>
-    <div class="mprod"><span class="mhalo" aria-hidden="true"><img src="${IMG.petri}" alt="" width="720" height="717"></span><span class="mdisc"><img src="${pk==="capsulas"?IMG.capb:IMG.sobb}" alt="Caja de Normalibs ${p.name}" width="${pk==="capsulas"?290:308}" height="${pk==="capsulas"?377:264}"></span></div>
+    <div class="mprod"><span class="mdisc"><img src="${pk==="capsulas"?IMG.capb:IMG.sobb}" alt="Caja de Normalibs ${p.name}" width="${pk==="capsulas"?290:308}" height="${pk==="capsulas"?377:264}"></span></div>
     <div class="mben"><p class="mlab">Ayuda a</p>
       <ul>${ben.map((b,ix)=>`<li style="--i:${ix}"><span class="mi">${ico(b[0])}</span>${b[1]}</li>`).join("")}</ul></div>
     <div class="dock"><button class="btn shine" id="next" type="button">Continuar</button></div>
@@ -576,35 +581,33 @@ function journey(){
   $("#next").addEventListener("click",()=>go(1));
 }
 function unlockScreen(){
-  main.innerHTML=`<section class="screen ugate">
-    <div class="unlock gate" id="unlock">
-      <div class="eyebrow">Beneficio exclusivo del quiz</div>
-      <h1 id="un-h">Desbloquee ${COUPON.pct}% extra en su primer Plan Paciente 2+1.</h1>
-      <p class="sub">Déjenos su correo y le enviamos su recomendación, sus tips de alimentación y su código.</p>
-      <div class="coupon locked"><span class="lockic">${ico("lock")}</span><div class="pct">${COUPON.pct}%<small> EXTRA</small></div><div class="code" aria-hidden="true">${COUPON.code}</div></div>
-      <form id="gf" class="uform" novalidate>
-        <div class="field"><label for="email">Correo electrónico</label><input id="email" type="email" autocomplete="email" inputmode="email" value="${esc(lead.email)}" placeholder="nombre@correo.com" aria-describedby="e-email"><span class="err" id="e-email" aria-live="polite"></span></div>
-        <label class="consent" for="consent"><input type="checkbox" id="consent" aria-describedby="e-consent"><span>Acepto recibir correos de Normalibs<sup>®</sup> con mi recomendación, mi código y novedades del Plan Paciente. Puedo darme de baja cuando quiera.</span></label>
-        <span class="err" id="e-consent" aria-live="polite"></span>
-        <button class="btn shine" type="submit">Desbloquear y ver mi resultado</button>
-      </form>
-    </div>
+  const pk=presKey(),p=PRES[pk];
+  main.innerHTML=`<section class="screen ugate" id="unlock">
+    <span class="gpill">Ahorre ${COUPON.pct}% en su primer plan</span>
+    <h1 id="un-h" class="gt">Desbloquee ${COUPON.pct}% extra con su correo.</h1>
+    <form id="gf" class="gform" novalidate>
+      <label class="sr" for="email">Correo electrónico</label>
+      <input id="email" class="ginput" type="email" autocomplete="email" inputmode="email" value="${esc(lead.email)}" placeholder="Su correo electrónico" aria-describedby="e-email">
+      <span class="err" id="e-email" aria-live="polite"></span>
+      <button class="btn" type="submit">Desbloquear</button>
+      <p class="gfine">Al desbloquear acepta recibir correos de Normalibs<sup>®</sup>. Puede darse de baja cuando quiera.</p>
+    </form>
+    <div class="gprod"><img src="${pk==="capsulas"?IMG.capb:IMG.sobb}" alt="Caja de Normalibs ${p.name}" width="${pk==="capsulas"?290:308}" height="${pk==="capsulas"?377:264}"></div>
   </section>`;
   $("#gf").addEventListener("submit",e=>{
     e.preventDefault();
     if(!validLead())return;
-    const c=main.querySelector(".coupon");c.className="coupon revealed";c.querySelector(".lockic").remove();c.querySelector(".code").removeAttribute("aria-hidden");
     $("#un-h").textContent="Listo, su "+COUPON.pct+"% está desbloqueado.";
     $("#gf").querySelector("button").disabled=true;
     burst($("#unlock"));
-    setTimeout(()=>go(1),RM()?300:1400);
+    setTimeout(()=>go(1),RM()?300:1200);
   });
 }
 function validLead(){
-  const m=$("#email").value.trim(),ok=$("#consent").checked;let bad=false;
+  const m=$("#email").value.trim(),cb=$("#consent"),ok=!cb||cb.checked;let bad=false;
   const set=(id,t)=>{$("#e-"+id).textContent=t;$("#"+id).setAttribute("aria-invalid",t?"true":"false");if(t)bad=true};
   set("email",/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m)?"":"Escriba un correo válido, por ejemplo nombre@correo.com.");
-  set("consent",ok?"":"Marque la casilla para recibir su código por correo.");
+  if(cb)set("consent",ok?"":"Marque la casilla para recibir su código por correo.");
   if(bad){const f1=main.querySelector('[aria-invalid="true"]');f1&&f1.focus();return false}
   lead.email=m;lead.unlocked=true;onLead();return true;
 }
