@@ -248,6 +248,7 @@ h1.qt{font-size:clamp(25px,7vw,30px);line-height:1.15}
 .tip .ti{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:var(--soft);color:var(--accent-ink)}
 .tip b{font-size:14px;color:var(--head);line-height:1.3}
 .tip span{font-size:12.5px;color:var(--muted);line-height:1.4}
+.tips .tip:last-child:nth-child(odd){grid-column:1/-1}
 .tip.wide{grid-column:1/-1;flex-direction:row;align-items:flex-start;gap:12px;background:var(--soft);border-color:transparent}
 .tip.wide .ti{background:var(--card);flex:none}
 .tip.wide div{display:flex;flex-direction:column;gap:4px;min-width:0}
@@ -360,11 +361,11 @@ h1.qt{font-size:clamp(25px,7vw,30px);line-height:1.15}
 .save.x{margin-top:-2px}
 .buybar{margin-left:auto;flex:none}
 .buybar[hidden]{display:none}
-.hbuy{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 13px;border:0;border-radius:999px;background:var(--accent);color:#fff;font:inherit;font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap;animation:hpulse 2.4s ease-in-out 3 .8s}
+.hbuy{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 13px;border:0;border-radius:999px;background:var(--accent);color:#fff;font:inherit;font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap;animation:hpulse 2s ease-in-out infinite .6s}
 .hbuy svg{width:16px;height:16px}
 @media (max-width:374px){.app.buying .brand img{height:21px}}
 @media (max-width:339px){.app.buying .brand img{height:18px}.hbuy svg{display:none}}
-@keyframes hpulse{0%,70%,100%{box-shadow:0 0 0 0 rgba(14,140,150,.45)}85%{box-shadow:0 0 0 8px rgba(14,140,150,0)}}
+@keyframes hpulse{0%{box-shadow:0 0 0 0 rgba(14,140,150,.55);transform:scale(1)}50%{transform:scale(1.05)}70%{box-shadow:0 0 0 10px rgba(14,140,150,0)}100%{box-shadow:0 0 0 0 rgba(14,140,150,0);transform:scale(1)}}
 .legal{font-size:12px;color:var(--muted);line-height:1.5;margin:0}
 .legal strong{font-weight:700}
 .team{border-radius:20px;background:var(--soft);color:var(--head);padding:4px 16px}
@@ -649,13 +650,13 @@ const fmt=n=>"¢"+Math.round(n).toLocaleString("en-US").replace(/,/g,".");
 /* Food tips: [icon, title, text] */
 const TIPS={
   adult:{
-    hinchazon:[["slow","Coma despacio","Masticar bien y sin prisa ayuda a tragar menos aire, que aumenta la sensación de hinchazón."],["soda","Modere gaseosas y chicles","Las burbujas y el chicle pueden sumar gases. Prefiera agua o infusiones."],["note","Lleve un diario de comidas","Anote qué come y cómo se siente para identificar qué le cae pesado."],["leaf","Pregunte por la dieta baja en FODMAP","A algunas personas con SII les ayuda, siempre guiada por un profesional."]],
-    molestias:[["clock","Coma a horas regulares","Evite saltarse comidas y prefiera porciones moderadas."],["fire","Identifique sus detonantes","En algunas personas, lo muy grasoso, picante o el exceso de café empeora las molestias."],["note","Lleve un diario de comidas","Le ayuda a conversar con su médico con información concreta."],["breath","Haga pausas para respirar","El estrés y el intestino están conectados. Unos minutos de calma antes de comer ayudan."]],
+    hinchazon:[["slow","Coma despacio","Masticar bien y sin prisa ayuda a tragar menos aire, que aumenta la sensación de hinchazón."],["soda","Modere gaseosas y chicles","Las burbujas y el chicle pueden sumar gases. Prefiera agua o infusiones."],["note","Lleve un diario de comidas","Anote qué come y cómo se siente para identificar qué le cae pesado."],["leaf","Pregunte por la dieta baja en FODMAP","A algunas personas con SII les ayuda, siempre guiada por un profesional."],["leaf","Sume fibra poco a poco","Frutas, verduras y avena, aumentando de forma gradual y con agua."]],
+    molestias:[["clock","Coma a horas regulares","Evite saltarse comidas y prefiera porciones moderadas."],["fire","Identifique sus detonantes","En algunas personas, lo muy grasoso, picante o el exceso de café empeora las molestias."],["note","Lleve un diario de comidas","Le ayuda a conversar con su médico con información concreta."],["breath","Haga pausas para respirar","El estrés y el intestino están conectados. Unos minutos de calma antes de comer ayudan."],["leaf","Sume fibra poco a poco","Frutas, verduras y avena, aumentando de forma gradual y con agua."]],
     ritmo:[["leaf","Sume fibra poco a poco","Frutas, verduras, avena y leguminosas, aumentando de forma gradual."],["drop","Hidrátese durante el día","El agua acompaña a la fibra. Tenga una botella a mano."],["clock","Mantenga horarios","Comer y descansar a horas parecidas ayuda a ordenar el ritmo intestinal."],["walk","Muévase todos los días","Una caminata diaria favorece el movimiento intestinal."]],
-    varias:[["slow","Coma despacio","Sin prisa y masticando bien, sobre todo en las comidas principales."],["clock","Coma a horas regulares","Porciones moderadas y sin saltarse comidas."],["drop","Hidrátese durante el día","Prefiera agua o infusiones sobre gaseosas."],["note","Lleve un diario de comidas","Le ayuda a reconocer patrones y a conversarlo con su médico."]]
+    varias:[["slow","Coma despacio","Sin prisa y masticando bien, sobre todo en las comidas principales."],["clock","Coma a horas regulares","Porciones moderadas y sin saltarse comidas."],["drop","Hidrátese durante el día","Prefiera agua o infusiones sobre gaseosas."],["note","Lleve un diario de comidas","Le ayuda a reconocer patrones y a conversarlo con su médico."],["leaf","Sume fibra poco a poco","Frutas, verduras y avena, aumentando de forma gradual y con agua."]]
   },
   kid:{
-    base:[["clock","Comidas a horas fijas","Desayuno, almuerzo y cena a horas parecidas dan estabilidad a su pancita."],["drop","Agua durante el día","Una botella en la lonchera ayuda a que tome agua en la escuela."],["leaf","Frutas y verduras de a poco","Ofrézcalas seguido y sin forzar. La variedad ayuda más que la cantidad."],["walk","Juego activo","Correr y jugar todos los días también ayuda a su digestión."]]
+    base:[["clock","Comidas a horas fijas","Desayuno, almuerzo y cena a horas parecidas dan estabilidad a su pancita."],["drop","Agua durante el día","Una botella en la lonchera ayuda a que tome agua en la escuela."],["leaf","Fibra de a poco","Frutas, verduras y avena todos los días, sin forzar y con agua."],["walk","Juego activo","Correr y jugar todos los días también ayuda a su digestión."]]
   }
 };
 const MOMENT_TIP={
@@ -701,16 +702,14 @@ function routineBlock(p){
     <div class="sec-head rv"><div class="eyebrow">Tips de alimentación</div><h2 id="rt-h">Pequeños hábitos que suman.</h2><p class="sub">${k?"Para acompañar la digestión de su hijo o hija.":`Para ${FOCUS[A.q1]}.`}</p></div>
     <div class="tips rv">
       ${tips.map(t=>`<div class="tip"><span class="ti">${ico(t[0])}</span><b>${t[1]}</b><span>${t[2]}</span></div>`).join("")}
-      ${k?`<div class="tip wide"><span class="ti">${ico("info")}</span><div><b>Antes de cambiar su alimentación</b><span>Converse con su pediatra. Cada niño es distinto.</span></div></div>`:`<div class="tip wide"><span class="ti">${ico("info")}</span><div><b>Hable con un profesional</b><span>Un médico o nutricionista puede ajustar su alimentación a lo que usted necesita.</span></div></div>`}
     </div>
-    <p class="fine rv">Consejos generales de bienestar. No reemplazan la orientación de su médico o nutricionista.</p>
   </section>`;
 }
 
 function planBlock(p,pk){
   return `<section class="plan sec" id="plan" aria-labelledby="plan-h">
     <div class="sec-head rv"><div class="eyebrow">Plan Paciente 2+1</div><h2 id="plan-h">3 meses de Normalibs<sup>®</sup> <span class="pn-c">${p.name}</span> por el precio de 2.</h2>
-      <p class="sub">Compre 2 y le regalamos el tercero. Envío gratis a todo el país.</p><span class="save">Ahorre 33%</span>${lead.unlocked?`<span class="save x">+ ${COUPON.pct}% con ${COUPON.code}</span>`:""}</div>
+      <span class="save">Ahorre 33%</span>${lead.unlocked?`<span class="save x">+ ${COUPON.pct}% con ${COUPON.code}</span>`:""}</div>
     <article class="tier hot rv">
       <div class="tier-h"><span class="lvl">Pago único</span><span class="pop">Compra directa</span></div>
       <h3>Normalibs<sup>®</sup> <span class="pn-c">${p.name}</span> · 3 ${p.unit}</h3>
@@ -724,7 +723,7 @@ function planBlock(p,pk){
       <div class="tier-h"><span class="lvl">Plan fraccionado</span></div>
       <h3>Normalibs<sup>®</sup> <span class="pn-c">${p.name}</span> · 3 ${p.unit} en 2 pagos</h3>
       <div class="price"><b data-n="${p.fee}" aria-label="${fmt(p.fee)}">${fmt(p.fee)}</b><span>primer pago</span></div>
-      <div class="months"><div><b>PRIMER PAGO</b>${fmt(p.fee)}<br>Recibe 1 unidad</div><div><b>SEGUNDO PAGO</b>${fmt(p.fee)}<br>Recibe 2 · 1 de regalo</div></div>
+      <div class="months"><div><b>PRIMER PAGO</b>${fmt(p.fee)}<br>Recibe 1 unidad</div><div><b>SEGUNDO PAGO</b>${fmt(p.fee)}<br>Recibe 2 unidades</div></div>
       <ul class="ticks2"><li>Sin intereses ni cargos adicionales</li><li>El segundo pago cuando usted decida</li></ul>
       <a class="btn ghost sq" href="${fraccUrl(pk)}" target="_blank" rel="noopener">Solicitar plan fraccionado<span class="sr"> (se abre en una pestaña nueva)</span></a>
     </article>
@@ -734,7 +733,6 @@ function planBlock(p,pk){
       <li><span class="bi">${ico("yoga")}</span><div><b>Al renovar su plan</b><span>Una clase de yoga mensual, cubierta por GoPharma Care.</span></div></li>
       <li><span class="bi">${ico("doc")}</span><div><b>Al cumplir un año</b><span>Cita con nutricionista y cita médica de seguimiento, cubiertas por GoPharma Care.</span></div></li>
     </ul>
-    <p class="fine">El pago único lo lleva directo al pago en gopharmacare.com. Precios en colones, impuestos incluidos. Disponible en Costa Rica.</p>
   </section>`;
 }
 
