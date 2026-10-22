@@ -1,6 +1,6 @@
 # Quiz Normalibs® "Apunta a ti"
 
-Quiz de 5 preguntas que recomienda Normalibs® Cápsulas (adultos) o Sobres (niños), muestra una rutina diaria con tips de alimentación y lleva al pago del Plan Paciente 2+1 en GoPharma Care. Al final, la persona deja su correo para desbloquear un descuento extra.
+Quiz de 4 preguntas que recomienda Normalibs® Cápsulas (adultos) o Sobres (niños), muestra una rutina diaria con tips de alimentación y lleva al pago del Plan Paciente 2+1 en GoPharma Care. Al final, la persona deja su correo para desbloquear un descuento extra.
 
 - Un solo archivo `index.html` con HTML, CSS y JavaScript. No necesita compilación ni dependencias.
 - Única dependencia externa: la tipografía Montserrat desde Google Fonts.
@@ -64,10 +64,10 @@ const CONFIG={
   "consent": true,
   "para": "adulto | hijo",
   "presentacion": "capsulas | sobres",
-  "molestia": "hinchazon | molestias | ritmo | varias",
+  "molestia_principal": "hinchazon | molestias | ritmo | varias",
   "momento": "comidas | trabajo | planes | estres | escuela | comer | paseos | nervios",
   "diagnostico": "si | sospecha | no",
-  "alarma": ["ninguno"],
+  "sintomas": ["dolor", "distension", "gases", "heces", "urgencia", "estres"],
   "cupon": "QUIZ10",
   "fecha": "2026-10-15T20:00:00.000Z"
 }
@@ -75,7 +75,7 @@ const CONFIG={
 
 Con esos campos se segmenta la secuencia de email marketing:
 - **Inmediato:** rutina y código.
-- **Día 1:** recordatorio con su molestia.
+- **Día 1:** recordatorio con sus síntomas.
 - **Día 3:** "3 meses de constancia".
 - **Día 7:** "su código vence pronto".
 
@@ -98,7 +98,7 @@ El quiz envía eventos a `window.dataLayer`, compatible con Google Tag Manager, 
 
 | Evento | Cuándo |
 |---|---|
-| `quiz_complete` | La persona llega al resultado. Incluye `para`, `presentacion`, `molestia`, `momento`, `diagnostico` y `alarma`. |
+| `quiz_complete` | La persona llega al resultado. Incluye `para`, `presentacion`, `molestia_principal`, `momento`, `diagnostico` y `sintomas`. |
 | `quiz_lead` | Deja su correo y desbloquea el cupón. |
 | `quiz_checkout_click` | Toca un botón que lleva a GoPharma Care. |
 

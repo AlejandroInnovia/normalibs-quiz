@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="Quiz Apunta a ti de Normalibs®: encuentre su rutina y el Plan Paciente 2+1.">
+<link rel="icon" href="assets/petri.webp">
 <title>Quiz Normalibs Apunta a ti</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -163,6 +164,14 @@ h1.qt{font-size:clamp(25px,7vw,30px);line-height:1.15}
 .rbody{display:flex;flex-direction:column;gap:34px;padding-top:22px}
 .sec{display:flex;flex-direction:column;gap:14px}
 .sec-head{display:flex;flex-direction:column;gap:8px;text-align:center;align-items:center}
+.symlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;border-radius:26px;background:var(--card);border:1px solid var(--line);overflow:hidden}
+.symlist li{display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start;padding:14px 18px}
+.symlist li+li{border-top:1px solid var(--line)}
+.symlist .sk{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--soft);color:var(--accent-ink)}
+.symlist .sk svg{width:18px;height:18px}
+.symlist b{display:block;font-size:15px;color:var(--head);line-height:1.3}
+.symlist span{font-size:13.5px;color:var(--muted)}
+.symnote{margin:0;text-align:center;font-size:14px;color:var(--muted)}
 .told{display:flex;flex-direction:column;border-radius:26px;background:var(--card);border:1px solid var(--line);margin:0;overflow:hidden}
 .told div{display:flex;flex-direction:column;gap:2px;padding:14px 20px}
 .told div+div{border-top:1px solid var(--line)}
@@ -366,16 +375,26 @@ document.getElementById("theme").addEventListener("click",()=>{
 /* Questions. Options: [value, adult label, child label] */
 const Q=[
  {id:"who",n:1,t:"¿Para quién es?",h:"Así le recomendamos la presentación indicada.",who:true},
- {id:"q1",n:2,t:"¿Qué es lo que más le afecta?",k:"¿Qué es lo que más le afecta a su hijo o hija?",opts:[
-   ["hinchazon","Inflamación o hinchazón"],["molestias","Molestias abdominales","Dolor o molestias de pancita"],["ritmo","Cambios en el ritmo intestinal"],["varias","Varias de estas a la vez"]]},
- {id:"q4",n:3,t:"¿En qué momentos lo nota más?",adult:[["comidas","Cuando como fuera de casa"],["trabajo","En el trabajo"],["planes","En viajes o planes sociales"],["estres","En momentos de estrés"]],
+ {id:"q4",n:2,t:"¿En qué momentos lo nota más?",adult:[["comidas","Cuando como fuera de casa"],["trabajo","En el trabajo"],["planes","En viajes o planes sociales"],["estres","En momentos de estrés"]],
    child:[["escuela","En la escuela o el colegio"],["comer","Después de comer"],["paseos","En paseos o actividades"],["nervios","En momentos de nervios"]]},
- {id:"q3",n:4,t:"¿Tiene diagnóstico médico de Síndrome de Intestino Irritable?",k:"¿Su pediatra le diagnosticó Síndrome de Intestino Irritable?",opts:[
+ {id:"q3",n:3,t:"¿Tiene diagnóstico médico de Síndrome de Intestino Irritable?",k:"¿Su pediatra le diagnosticó Síndrome de Intestino Irritable?",opts:[
    ["si","Sí"],["sospecha","No, pero lo sospecho","No, pero lo sospechamos"],["no","No"]]},
- {id:"alarm",n:5,multi:true,t:"¿Ha notado alguno de estos síntomas?",k:"¿Ha notado alguno de estos síntomas en su hijo o hija?",h:"Marque todos los que apliquen.",opts:[
-   ["sangre","Sangre en las heces"],["peso","Pérdida de peso sin explicación"],["fiebre","Fiebre junto con las molestias"],["noche","Molestias que despiertan de noche"],["ninguno","Ninguno de estos"]]}
+ {id:"alarm",n:4,multi:true,t:"¿Cuáles de estos síntomas tiene?",k:"¿Cuáles de estos síntomas tiene su hijo o hija?",h:"Marque todos los que apliquen.",opts:[
+   ["dolor","Dolor abdominal o calambres que se repiten","Dolor de pancita o calambres que se repiten"],
+   ["distension","Hinchazón o sensación de llenura"],
+   ["gases","Gases en exceso"],
+   ["heces","Heces muy duras o muy líquidas"],
+   ["urgencia","Urgencia para ir al baño o sensación de no terminar"],
+   ["estres","Estrés, ansiedad o cansancio ligados a la digestión"],
+   ["ninguno","Ninguno de estos"]]}
 ];
-const TOTAL=5;
+const TOTAL=4;
+/* Molestia principal derivada de los síntomas marcados (reemplaza la antigua pregunta 2) */
+function deriveFocus(){
+  const s=A.alarm.filter(x=>x!=="ninguno");
+  const g=new Set(s.map(x=>({dolor:"molestias",distension:"hinchazon",gases:"hinchazon",heces:"ritmo",urgencia:"ritmo",estres:"molestias"})[x]));
+  A.q1=g.size===1?[...g][0]:"varias";
+}
 const flow=["intro",...Q.map(q=>q.id),"loading","result"];
 let i=0;const A={alarm:[]};let lead={email:"",unlocked:false};let obs=[];let busy=false;
 
@@ -451,8 +470,7 @@ function question(q){
     <div class="opts" role="group" aria-labelledby="qh">
       ${optsOf(q).map((o,ix)=>`<button type="button" class="opt" style="--i:${ix}" data-v="${o[0]}" ${multi?`role="checkbox" aria-checked="${sel.includes(o[0])}"`:`aria-pressed="${sel===o[0]}"`}><span class="dot" aria-hidden="true"></span><span>${esc(o[1])}</span></button>`).join("")}
     </div>
-    ${multi?`<div class="safety">${ico("info")}<span>Nos ayuda a saber si conviene consultar primero con ${kid()?"su pediatra":"su médico"}.</span></div>
-    <div class="dock"><button class="btn" id="next" type="button" ${A.alarm.length?"":"disabled"}>Ver mi resultado</button></div>`:""}
+    ${multi?`<div class="dock"><button class="btn" id="next" type="button" ${A.alarm.length?"":"disabled"}>Ver mi resultado</button></div>`:""}
   </section>`;
   main.querySelectorAll(".opt").forEach(b=>b.addEventListener("click",()=>{
     const v=b.dataset.v;
@@ -465,7 +483,7 @@ function question(q){
       A[q.id]=v;main.querySelectorAll(".opt").forEach(o=>o.setAttribute("aria-pressed",o.dataset.v===v));setTimeout(()=>go(1),RM()?0:260);
     }
   }));
-  if(multi)$("#next").addEventListener("click",()=>go(1));
+  if(multi)$("#next").addEventListener("click",()=>{deriveFocus();go(1)});
 }
 
 function loading(){
@@ -484,7 +502,7 @@ const PRES={
   sobres:{name:"Sobres",aud:"Niños",unit:"cajas",variant:"46958985576647",img:IMG.sob,once:63000,full:94500,save:31500,fee:31500,specs:["30 sobres de 1.5 g · uno al día · rinde 1 mes","Polvo sabor vainilla, fácil de disolver","Se mezcla con bebidas o alimentos fríos"]}
 };
 const presKey=()=>kid()?"sobres":"capsulas";
-const kind=()=>A.alarm.some(x=>x!=="ninguno")?"alarm":(A.q3==="si"?"diag":"nodiag");
+const kind=()=>A.q3==="si"?"diag":"nodiag";
 const UTM=(pk,mode)=>"utm_source=quiz_normalibs&utm_medium=quiz&utm_campaign=apunta_a_ti&utm_content="+pk+"_"+mode;
 const checkoutUrl=(pk,mode,code)=>STORE+"/cart/"+PRES[pk].variant+":1?"+UTM(pk,mode)+(code?"&discount="+encodeURIComponent(code):"");
 const fraccUrl=pk=>STORE+"/pages/contact?"+UTM(pk,"fraccionado");
@@ -516,8 +534,27 @@ const MOMENT_TIP={
 function ico(n){
   const P={info:'<circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.5"/>',pack:'<rect x="4" y="7" width="16" height="13" rx="2"/><path d="M4 11h16M9 7V4h6v3"/>',yoga:'<circle cx="12" cy="5" r="2"/><path d="M4 20c3-1 5-3 8-3s5 2 8 3M12 7v7M7 11l5 2 5-2"/>',doc:'<path d="M9 3h6v4H9zM6 5h12v16H6z"/><path d="M12 11v6M9 14h6"/>',lock:'<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/>',gift:'<rect x="4" y="9" width="16" height="11" rx="1.5"/><path d="M3 9h18M12 9v11M12 9c-2-4-6-4-6-1.5S12 9 12 9zM12 9c2-4 6-4 6-1.5S12 9 12 9z"/>',
     sunrise:'<path d="M4 18h16M7 18a5 5 0 0110 0M12 4v4M5.6 9.6l1.4 1.4M18.4 9.6L17 11"/>',day:'<circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4"/>',moon:'<path d="M20 14.5A8 8 0 019.5 4a8 8 0 1010.5 10.5z"/>',
-    slow:'<circle cx="12" cy="12" r="8"/><path d="M12 8v4l2.5 2.5"/>',clock:'<circle cx="12" cy="12" r="8"/><path d="M12 7v5h4"/>',soda:'<path d="M8 3h8l-1 18H9z"/><path d="M8.5 8h7M11 12.5h.01M13 15.5h.01M11.5 18h.01"/>',note:'<path d="M6 3h9l3 3v15H6z"/><path d="M9 10h6M9 14h6M9 18h4"/>',leaf:'<path d="M5 19C5 10 11 5 20 4c0 9-5 15-14 15z"/><path d="M5 19l8-8"/>',fire:'<path d="M12 21a6 6 0 006-6c0-4-3-6-4-10-2 2-3 4-3 6-1-1-2-2-2-4-2 2-3 5-3 8a6 6 0 006 6z"/>',breath:'<path d="M3 9h11a3 3 0 10-3-3M3 15h15a3 3 0 11-3 3M3 12h8"/>',drop:'<path d="M12 3s6 7 6 11a6 6 0 01-12 0c0-4 6-11 6-11z"/>',walk:'<circle cx="13" cy="4" r="2"/><path d="M9 21l2-6 3 3v3M7 12l3-4 4 1 2 4M10 8l1 7"/>'};
+    slow:'<circle cx="12" cy="12" r="8"/><path d="M12 8v4l2.5 2.5"/>',clock:'<circle cx="12" cy="12" r="8"/><path d="M12 7v5h4"/>',soda:'<path d="M8 3h8l-1 18H9z"/><path d="M8.5 8h7M11 12.5h.01M13 15.5h.01M11.5 18h.01"/>',note:'<path d="M6 3h9l3 3v15H6z"/><path d="M9 10h6M9 14h6M9 18h4"/>',leaf:'<path d="M5 19C5 10 11 5 20 4c0 9-5 15-14 15z"/><path d="M5 19l8-8"/>',fire:'<path d="M12 21a6 6 0 006-6c0-4-3-6-4-10-2 2-3 4-3 6-1-1-2-2-2-4-2 2-3 5-3 8a6 6 0 006 6z"/>',breath:'<path d="M3 9h11a3 3 0 10-3-3M3 15h15a3 3 0 11-3 3M3 12h8"/>',drop:'<path d="M12 3s6 7 6 11a6 6 0 01-12 0c0-4 6-11 6-11z"/>',check:'<path d="M5 12.5l4.5 4.5L19 7.5"/>',walk:'<circle cx="13" cy="4" r="2"/><path d="M9 21l2-6 3 3v3M7 12l3-4 4 1 2 4M10 8l1 7"/>'};
   return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[n]}</svg>`;
+}
+
+/* Lo que nos contó: síntomas marcados + un hábito concreto para cada uno */
+const SYM_TIP={
+  dolor:["Dolor abdominal o calambres","Coma a horas regulares y anote qué comidas le caen pesado.","Dolor de pancita o calambres","Comidas a horas fijas y anotar qué alimentos le caen pesado."],
+  distension:["Hinchazón o llenura","Coma despacio y modere gaseosas y chicles.","Hinchazón o llenura","Que coma sentado, despacio y sin pantallas."],
+  gases:["Gases en exceso","Observe si leguminosas, cebolla o repollo aumentan los gases.","Gases en exceso","Ofrezca de a poco los alimentos que suelen dar gases."],
+  heces:["Heces muy duras o muy líquidas","Hidrátese durante el día y sume fibra de forma gradual.","Heces muy duras o muy líquidas","Agua en la lonchera y frutas o verduras de a poco."],
+  urgencia:["Urgencia o evacuación incompleta","Mantenga horarios regulares de comida y de ir al baño.","Urgencia o evacuación incompleta","Rutinas fijas para comer y para ir al baño, sin apuros."],
+  estres:["Estrés o cansancio digestivo","Unos minutos de respiración lenta antes de comer ayudan.","Nervios o cansancio digestivo","Un momento tranquilo antes de comer le da seguridad."]
+};
+const MOMENT_TXT={comidas:"cuando come fuera de casa",trabajo:"en el trabajo",planes:"en viajes o planes sociales",estres:"en momentos de estrés",escuela:"en la escuela o el colegio",comer:"después de comer",paseos:"en paseos o actividades",nervios:"en momentos de nervios"};
+function symBlock(){
+  const k=kid(),sel=A.alarm.filter(x=>x!=="ninguno"&&SYM_TIP[x]);
+  const head=`<div class="sec-head rv"><div class="eyebrow">Lo que nos contó</div><h2>${sel.length?(k?"Esto es lo que más le afecta a su hijo o hija.":"Esto es lo que más le afecta."):"Su rutina le acompaña día a día."}</h2>
+    <p class="sub">Lo nota sobre todo ${MOMENT_TXT[A.q4]||esc(labelOf("q4",A.q4).toLowerCase())}.</p></div>`;
+  const items=sel.map(x=>{const t=SYM_TIP[x];return `<li><span class="sk">${ico("check")}</span><div><b>${t[k?2:0]}</b><span>${t[k?3:1]}</span></div></li>`}).join("");
+  return `<section class="sec">${head}${sel.length?`<ul class="symlist rv">${items}</ul>`:""}
+    <p class="symnote rv">Normalibs<sup>®</sup> con <em>Bifidobacterium longum</em> 35624™ contribuye al bienestar intestinal, en una toma al día.*</p></section>`;
 }
 
 function routineBlock(p){
@@ -601,7 +638,7 @@ function unlockBlock(p,pk){
 function team(k,pk){
   if(!CONFIG.showTeamPanel)return "";
   const p=PRES[pk];
-  const tags=[["Para",kid()?"Hijo o hija (Sobres)":"Adulto (Cápsulas)"],["Segmento",SEG[A.q1]],["Momento",labelOf("q4",A.q4)],["Diagnóstico",labelOf("q3",A.q3)],["Señales de alarma",A.alarm.includes("ninguno")?"Ninguna":A.alarm.map(a=>labelOf("alarm",a)).join(", ")],["Correo",lead.email||"No desbloqueó"]];
+  const tags=[["Para",kid()?"Hijo o hija (Sobres)":"Adulto (Cápsulas)"],["Segmento",SEG[A.q1]],["Momento",labelOf("q4",A.q4)],["Diagnóstico",labelOf("q3",A.q3)],["Síntomas",A.alarm.includes("ninguno")?"Ninguna":A.alarm.map(a=>labelOf("alarm",a)).join(", ")],["Correo",lead.email||"No desbloqueó"]];
   const mt=MOMENT_TIP[A.q4][0].toLowerCase();
   const seq=[
     ["Inmediato · al desbloquear",`Su rutina Normalibs® ${p.name} y su ${COUPON.pct}% extra`,`Rutina diaria, tips de alimentación para ${FOCUS[A.q1]} y el código ${COUPON.code}.`],
@@ -626,7 +663,7 @@ function result(){
   const note=k==="alarm"
     ?`<div class="mdnote warn">${ico("info")}<p><b>Le recomendamos hablar pronto con ${doc}.</b> Mencionó: ${alarmList.map(a=>esc(labelOf("alarm",a)).toLowerCase()).join(", ")}.</p></div>`
     :k==="nodiag"?`<div class="mdnote">${ico("info")}<p><b>Converse con ${doc}.</b> Solo un profesional de la salud puede confirmar la causa de ${FOCUS[A.q1]}.</p></div>`:"";
-  track("quiz_complete",{para:kid()?"hijo":"adulto",presentacion:pk,molestia:A.q1,momento:A.q4,diagnostico:A.q3,alarma:A.alarm.join(",")});
+  track("quiz_complete",{para:kid()?"hijo":"adulto",presentacion:pk,molestia_principal:A.q1,momento:A.q4,diagnostico:A.q3,sintomas:A.alarm.join(",")});
   main.innerHTML=`<section class="screen result">
       <div class="rhero"><div class="dish"><img src="${IMG.petri}" alt="" width="720" height="717"><span class="scrim"></span><div class="label"><img src="${IMG.logoW}" alt="Normalibs® Bifidobacterium longum 35624™" width="460" height="85"></div></div></div>
       <div class="rhead">
@@ -634,6 +671,7 @@ function result(){
         <h1>${kid()?`La rutina de su hijo o hija es Normalibs<sup>®</sup> <span class="pn-c">${p.name}</span>.`:`Su rutina es Normalibs<sup>®</sup> <span class="pn-c">${p.name}</span>.`}</h1>
       </div>
       <div class="rbody">
+        ${symBlock()}
         ${routineBlock(p)}
         <div class="sec"><div class="sec-head rv"><div class="eyebrow">${kid()?"Su presentación para niños":"Su presentación"}</div></div>
           <article class="pcard rv"><div class="pimg"><img src="${p.img}" alt="Caja de Normalibs ${p.name}" width="420" height="${pk==="capsulas"?541:517}"></div>
@@ -641,8 +679,7 @@ function result(){
         </div>
         ${planBlock(p,pk)}
         ${unlockBlock(p,pk)}
-        ${k==="alarm"?`<p class="alarmline">${ico("info")}<span>Por los síntomas que mencionó, le recomendamos consultar pronto con ${doc}.</span></p>`:""}
-        <p class="legal">Contribuye al bienestar intestinal. Fraseo sujeto a validación regulatoria. Suplemento alimenticio. <strong>Este producto no es un medicamento.</strong> Consulte con ${doc}.</p>
+        <p class="legal">*Contribuye al bienestar intestinal. Fraseo sujeto a validación regulatoria. Suplemento alimenticio. <strong>Este producto no es un medicamento.</strong> Consulte con ${doc}.</p>
         ${team(k,pk)}
         <button class="link" type="button" id="restart">Volver a empezar</button>
       </div>
@@ -691,7 +728,7 @@ function wireUnlock(pk){
       set("consent",ok?"":"Marque la casilla para recibir su código por correo.");
       if(bad){const f1=main.querySelector('[aria-invalid="true"]');f1&&f1.focus();return}
       lead.email=m;lead.unlocked=true;
-      sendLead({email:m,consent:true,para:kid()?"hijo":"adulto",presentacion:pk,molestia:A.q1,momento:A.q4,diagnostico:A.q3,alarma:A.alarm,cupon:COUPON.code,fecha:new Date().toISOString()});
+      sendLead({email:m,consent:true,para:kid()?"hijo":"adulto",presentacion:pk,molestia_principal:A.q1,momento:A.q4,diagnostico:A.q3,sintomas:A.alarm,cupon:COUPON.code,fecha:new Date().toISOString()});
       $("#unlock").outerHTML=unlockBlock(PRES[pk],pk);
       const t=main.querySelector(".team");if(t&&CONFIG.showTeamPanel){const open=t.open;t.outerHTML=team(kind(),pk);if(open)main.querySelector(".team").open=true}
       wireUnlock(pk);burst($("#unlock"));
