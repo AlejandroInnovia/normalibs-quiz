@@ -640,17 +640,24 @@ function unlockScreen(){
       <label class="sr" for="email">Correo electrónico</label>
       <input id="email" class="ginput" type="email" autocomplete="email" inputmode="email" value="${esc(lead.email)}" placeholder="Su correo electrónico" aria-describedby="e-email">
       <span class="err" id="e-email" aria-live="polite"></span>
-      <button class="btn" type="submit">Enviar</button>
+      <button class="btn" type="button">Enviar</button>
     </form>
   </section>`;
-  $("#gf").addEventListener("submit",e=>{
-    e.preventDefault();
+  onSend($("#gf"),()=>{
     if(!validLead())return;
     $("#un-h").textContent="Listo, su "+COUPON.pct+"% está desbloqueado.";
     $("#gf").querySelector("button").disabled=true;
     burst($("#unlock"));
     setTimeout(()=>go(1),RM()?300:1200);
   });
+}
+/* No depende del envío nativo del formulario: algunos visores (iframes protegidos) lo bloquean */
+function onSend(f,fn){
+  let busySend=false;
+  const run=e=>{if(e)e.preventDefault();if(busySend)return;busySend=true;setTimeout(()=>busySend=false,300);fn()};
+  f.addEventListener("submit",run);
+  f.querySelector("button").addEventListener("click",run);
+  f.querySelectorAll('input[type="email"]').forEach(i=>i.addEventListener("keydown",e=>{if(e.key==="Enter")run(e)}));
 }
 function validLead(){
   const m=$("#email").value.trim(),cb=$("#consent"),ok=!cb||cb.checked;let bad=false;
@@ -790,7 +797,7 @@ function unlockBlock(p,pk){
         <div class="field"><label for="email">Correo electrónico</label><input id="email" type="email" autocomplete="email" inputmode="email" value="${esc(lead.email)}" placeholder="nombre@correo.com" aria-describedby="e-email"><span class="err" id="e-email" aria-live="polite"></span></div>
         <label class="consent" for="consent"><input type="checkbox" id="consent" aria-describedby="e-consent"><span>Acepto recibir correos de Normalibs<sup>®</sup> con mi recomendación, mi código y novedades del Plan Paciente. Puedo darme de baja cuando quiera.</span></label>
         <span class="err" id="e-consent" aria-live="polite"></span>
-        <button class="btn shine" type="submit">Desbloquear mi ${COUPON.pct}%</button>
+        <button class="btn shine" type="button">Desbloquear mi ${COUPON.pct}%</button>
       </form>`}
   </section>`;
 }
@@ -883,8 +890,7 @@ function burst(host){
 function wireUnlock(pk){
   const f=$("#uf");
   if(f){
-    f.addEventListener("submit",e=>{
-      e.preventDefault();
+    onSend(f,()=>{
       if(!validLead())return;
       $("#plan").outerHTML=planBlock(PRES[pk],pk);main.querySelectorAll("#plan .rv").forEach(x=>x.classList.add("in"));
       $("#unlock").outerHTML=unlockBlock(PRES[pk],pk);
