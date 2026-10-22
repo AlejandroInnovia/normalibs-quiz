@@ -107,7 +107,7 @@ El quiz envía eventos a `window.dataLayer`, compatible con Google Tag Manager, 
 | `quiz_complete` | La persona llega al resultado. Incluye `para`, `presentacion`, `molestia_principal`, `momento`, `diagnostico` y `sintomas`. |
 | `quiz_lead` | Deja su correo y desbloquea el cupón. |
 | `quiz_checkout_click` | Toca un botón que lleva a GoPharma Care. |
-| `quiz_buybar_click` | Toca el botón flotante "Comprar ya" del resultado. |
+| `quiz_buybar_click` | Toca el botón "Comprar −10%" del encabezado en el resultado. |
 
 ## Pendientes antes de lanzar
 
