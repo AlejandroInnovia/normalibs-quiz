@@ -355,6 +355,10 @@ h1.qt{font-size:clamp(25px,7vw,30px);line-height:1.15}
 .applied{display:flex;gap:8px;align-items:center;margin:0;font-size:13.5px;color:var(--aqua)}
 .applied svg{flex:none}
 .save.x{margin-top:-2px}
+.buybar{position:fixed;left:0;right:0;bottom:0;z-index:20;max-width:480px;margin:0 auto;padding:12px 20px calc(14px + env(safe-area-inset-bottom,0px));background:linear-gradient(180deg,transparent,var(--bg) 38%);transition:transform .35s var(--ease),opacity .25s}
+.buybar .btn{box-shadow:0 16px 32px -14px rgba(10,58,71,.6)}
+.buybar.off{transform:translateY(120%);opacity:0;pointer-events:none}
+.result .rbody{padding-bottom:84px}
 .legal{font-size:12px;color:var(--muted);line-height:1.5;margin:0}
 .legal strong{font-weight:700}
 .team{border-radius:20px;background:var(--soft);color:var(--head);padding:4px 16px}
@@ -398,6 +402,7 @@ h1.qt{font-size:clamp(25px,7vw,30px);line-height:1.15}
     <div class="bar" id="barwrap" hidden role="progressbar" aria-label="Progreso del quiz" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="bar"></i></div>
   </header>
   <main id="main"></main>
+  <div class="buybar off" id="buybar" hidden></div>
   <footer class="foot">
     <div class="logos"><img src="assets/innova-blanco.webp" alt="Innova · The way to health" width="348" height="84"><img src="assets/novonesis-blanco.webp" alt="Novonesis" width="300" height="38"></div>
   </footer>
@@ -478,6 +483,7 @@ function prog(id){const q=Q.find(x=>x.id===id);return id==="loading"||id==="resu
 function setBar(id){const v=prog(id);$("#bar").style.transform="scaleX("+v+")";$("#barwrap").setAttribute("aria-valuenow",Math.round(v*100))}
 function render(){
   obs.forEach(o=>o.disconnect());obs=[];
+  const bb0=$("#buybar");bb0.hidden=true;bb0.classList.add("off");bb0.innerHTML="";
   header();
   const id=flow[i];
   if(id==="intro")return intro();
@@ -509,7 +515,6 @@ function intro(){
     <div class="dish"><img src="${IMG.petri}" alt="" width="720" height="717"><span class="scrim"></span><div class="label"><img src="${IMG.logoW}" alt="Normalibs® Bifidobacterium longum 35624™" width="460" height="85"></div></div>
     <div class="eyebrow">Apunta a ti</div>
     <h1>Bienestar intestinal, hecho a su medida.</h1>
-    <p class="sub">Responda 4 preguntas y conozca la presentación de Normalibs<sup>®</sup> indicada para usted o su hijo.</p>
     <div class="hero-cta">
       <button class="btn shine" id="start" type="button">Empezar el quiz</button>
       <a class="hlink" href="${plan}" target="_blank" rel="noopener">Ver Plan Paciente<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span class="sr"> (se abre en una pestaña nueva)</span></a>
@@ -680,8 +685,7 @@ const SYM_TIP={
 const MOMENT_TXT={comidas:"cuando come fuera de casa",trabajo:"en el trabajo",planes:"en viajes o planes sociales",estres:"en momentos de estrés",escuela:"en la escuela o el colegio",comer:"después de comer",paseos:"en paseos o actividades",nervios:"en momentos de nervios"};
 function symBlock(){
   const k=kid(),sel=A.alarm.filter(x=>x!=="ninguno"&&SYM_TIP[x]);
-  const head=`<div class="sec-head rv"><div class="eyebrow">Lo que nos contó</div><h2>${sel.length?(k?"Esto es lo que más le afecta a su hijo o hija.":"Esto es lo que más le afecta."):"Normalibs<sup>®</sup> le acompaña día a día."}</h2>
-    <p class="sub">Lo nota sobre todo ${MOMENT_TXT[A.q4]||esc(labelOf("q4",A.q4).toLowerCase())}.</p></div>`;
+  const head=`<div class="sec-head rv"><div class="eyebrow">Lo que nos contó</div><h2>${sel.length?(k?"Esto es lo que más le afecta a su hijo o hija.":"Esto es lo que más le afecta."):"Normalibs<sup>®</sup> le acompaña día a día."}</h2></div>`;
   const items=sel.map(x=>{const t=SYM_TIP[x];return `<li><span class="sk">${ico("check")}</span><div><b>${t[k?2:0]}</b><span>${t[k?3:1]}</span></div></li>`}).join("");
   return `<section class="sec">${head}${sel.length?`<ul class="symlist rv">${items}</ul>`:""}</section>`;
 }
@@ -807,8 +811,14 @@ function smooth(){return RM()?"auto":"smooth"}
 function wire(pk){
   $("#toUnlock")&&$("#toUnlock").addEventListener("click",()=>{$("#unlock").scrollIntoView({behavior:smooth(),block:"start"});setTimeout(()=>{const e=$("#email");e&&e.focus({preventScroll:true})},450)});
   reveal();
+  const bb=$("#buybar"),pl=$("#plan");
+  bb.innerHTML=`<button class="btn shine" type="button" id="toPlan">${ico("gift")}Comprar ya con ${lead.unlocked?"mi "+COUPON.pct+"%":"descuento"}</button>`;bb.hidden=false;
+  $("#toPlan").addEventListener("click",()=>{pl.scrollIntoView({behavior:smooth(),block:"start"});const h=$("#plan-h");h.setAttribute("tabindex","-1");setTimeout(()=>h.focus({preventScroll:true}),RM()?0:500)});
+  let planIn=false;setTimeout(()=>{if(!planIn)bb.classList.remove("off")},RM()?0:900);
+  if("IntersectionObserver" in window){const o=new IntersectionObserver(es=>es.forEach(e=>{planIn=e.isIntersecting;bb.classList.toggle("off",planIn)}),{rootMargin:"0px 0px -35% 0px"});o.observe(pl);obs.push(o)}
   wireUnlock(pk);
   main.querySelectorAll('a[href*="gopharmacare.com"]').forEach(a=>a.addEventListener("click",()=>track("quiz_checkout_click",{presentacion:pk,url:a.href})));
+  $("#toPlan").addEventListener("click",()=>track("quiz_buybar_click",{presentacion:pk}));
   $("#restart").addEventListener("click",()=>{Object.keys(A).forEach(k=>delete A[k]);A.alarm=[];lead={email:"",unlocked:false};i=0;render();window.scrollTo(0,0)});
 }
 function reveal(){
