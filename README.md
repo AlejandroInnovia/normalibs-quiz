@@ -17,6 +17,7 @@ Inicio → 4 preguntas → "Conozca Normalibs® Cápsulas/Sobres" → "Normalibs
 normalibs-quiz/
 ├── index.html
 ├── README.md
+├── emails/                     Correo 1 (código), correo 2 (recordatorio), imágenes y guía
 └── assets/
     ├── petri.webp                  Arte de cultivo (portada y resultado)
     ├── para-mi.webp                Foto "Para mí"
@@ -50,6 +51,7 @@ Todo lo editable está en el bloque `CONFIG`, al inicio del `<script>` en `index
 const CONFIG={
   store:"https://gopharmacare.com",
   coupon:{pct:10,code:"QUIZ10"},
+  klaviyo:{publicKey:"",listId:""},
   leadEndpoint:"",
   showTeamPanel:false
 };
@@ -59,6 +61,7 @@ const CONFIG={
 |---|---|
 | `store` | Dominio de la tienda Shopify. |
 | `coupon` | Porcentaje y código que se muestran al desbloquear. **El código debe existir en Shopify:** *Descuentos → Crear descuento → Código*, con 10% sobre los productos Plan Paciente 2+1 y un uso por cliente. |
+| `klaviyo` | Clave pública y lista de Klaviyo. Con esto, cada correo del quiz dispara los correos automáticos. Ver `emails/GUIA-CORREOS.md`. |
 | `leadEndpoint` | URL que recibe el correo y las respuestas por `POST` en JSON. Puede ser un webhook de Klaviyo, Mailchimp, HubSpot, Zapier o Make. Si se deja vacío, no se envía nada. |
 | `showTeamPanel` | En `true` muestra el panel "Vista del equipo", con los datos del lead y la secuencia de correos. Es solo para revisión interna: en producción debe estar en `false`. |
 
@@ -112,7 +115,7 @@ El quiz envía eventos a `window.dataLayer`, compatible con Google Tag Manager, 
 ## Pendientes antes de lanzar
 
 - [ ] Crear el código `QUIZ10` en Shopify.
-- [ ] Conectar `leadEndpoint` a la plataforma de email y armar la secuencia.
+- [ ] Conectar Klaviyo (`CONFIG.klaviyo`) y crear el flujo de correos según `emails/GUIA-CORREOS.md`.
 - [ ] Revisar con Legal el formulario de correo: no tiene texto de consentimiento (Ley 8968). Si lo piden, se agrega una línea bajo el botón.
 - [ ] Confirmar con Regulatorio que la página puede ir sin la leyenda "suplemento alimenticio".
 - [ ] Validar con Regulatorio el fraseo de beneficio y los tips de alimentación.

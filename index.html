@@ -459,6 +459,7 @@ const IMG={petri:"assets/petri.webp",woman:"assets/para-mi.webp",kid:"assets/par
 const CONFIG={
   store:"https://gopharmacare.com",
   coupon:{pct:10,code:"QUIZ10"},           // crear este código en Shopify > Descuentos
+  klaviyo:{publicKey:"",listId:""},         // Klaviyo > Configuración > Claves API (clave pública de 6 caracteres) y el ID de la lista "Quiz Normalibs"
   leadEndpoint:"",                          // URL que recibe el correo + respuestas (Klaviyo, Mailchimp, HubSpot, Zapier, etc.). Vacío = no envía.
   showTeamPanel:false                       // true solo para revisión interna ("Vista del equipo")
 };
@@ -467,9 +468,17 @@ const COUPON=CONFIG.coupon;
 window.dataLayer=window.dataLayer||[];
 function track(event,data){try{window.dataLayer.push(Object.assign({event},data||{}))}catch(e){}}
 function sendLead(data){
-  track("quiz_lead",data);
-  if(!CONFIG.leadEndpoint)return;
-  try{fetch(CONFIG.leadEndpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)})}catch(e){}
+  track("quiz_lead",{para:data.para,presentacion:data.presentacion,molestia_principal:data.molestia_principal});
+  const K=CONFIG.klaviyo||{};
+  if(K.publicKey){
+    const H={"Content-Type":"application/json",revision:"2024-10-15"};
+    const base="https://a.klaviyo.com/client/";
+    // 1) Suscribe el correo a la lista (consentimiento de marketing)
+    if(K.listId)try{fetch(base+"subscriptions/?company_id="+K.publicKey,{method:"POST",headers:H,body:JSON.stringify({data:{type:"subscription",attributes:{profile:{data:{type:"profile",attributes:{email:data.email,subscriptions:{email:{marketing:{consent:"SUBSCRIBED"}}}}}}},relationships:{list:{data:{type:"list",id:K.listId}}}}})})}catch(e){}
+    // 2) Registra el evento "Quiz Normalibs completado" con las respuestas: este evento dispara los correos
+    try{fetch(base+"events/?company_id="+K.publicKey,{method:"POST",headers:H,body:JSON.stringify({data:{type:"event",attributes:{properties:data,metric:{data:{type:"metric",attributes:{name:"Quiz Normalibs completado"}}},profile:{data:{type:"profile",attributes:{email:data.email,properties:{quiz_para:data.para,quiz_presentacion:data.presentacion,quiz_molestia:data.molestia_principal}}}}}}})})}catch(e){}
+  }
+  if(CONFIG.leadEndpoint)try{fetch(CONFIG.leadEndpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)})}catch(e){}
 }
 
 /* theme toggle */
@@ -667,7 +676,23 @@ function validLead(){
   if(bad){const f1=main.querySelector('[aria-invalid="true"]');f1&&f1.focus();return false}
   lead.email=m;lead.unlocked=true;onLead();return true;
 }
-function onLead(){sendLead({email:lead.email,consent:true,para:kid()?"hijo":"adulto",presentacion:presKey(),molestia_principal:A.q1,momento:A.q4,diagnostico:A.q3,sintomas:A.alarm,cupon:COUPON.code,fecha:new Date().toISOString()})}
+function onLead(){sendLead(leadData())}
+/* Datos que recibe la plataforma de email para personalizar los correos */
+function leadData(){
+  const pk=presKey(),p=PRES[pk],k=kid();
+  const sin=A.alarm.filter(x=>x!=="ninguno"&&SYM_TIP[x]);
+  return {
+    email:lead.email,consent:true,
+    para:k?"hijo":"adulto",presentacion:pk,presentacion_nombre:p.name,
+    molestia_principal:A.q1,molestia_texto:FOCUS[A.q1],
+    momento:A.q4,diagnostico:A.q3,sintomas:A.alarm,
+    sintomas_detalle:sin.map(x=>({titulo:SYM_TIP[x][k?2:0],tip:SYM_TIP[x][k?3:1]})),
+    cupon:COUPON.code,cupon_pct:COUPON.pct,
+    precio:fmt(p.once),precio_con_codigo:fmt(p.once*(1-COUPON.pct/100)),
+    link_compra:checkoutUrl(pk,"email",COUPON.code),link_fraccionado:fraccUrl(pk),
+    fecha:new Date().toISOString()
+  };
+}
 
 function loading(){
   main.innerHTML=`<section class="screen loading">
