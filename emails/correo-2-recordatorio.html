@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="x-apple-disable-message-reformatting">
+<meta name="color-scheme" content="light only">
+<meta name="supported-color-schemes" content="light only">
+<title>Normalibs® puede ayudarle</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;padding:0;background:#F7F5F1}
+  a{color:#0B7880}
+  @media (max-width:620px){
+    .wrap{width:100%!important}
+    .px{padding-left:22px!important;padding-right:22px!important}
+    .h1{font-size:26px!important;line-height:32px!important}
+    .stat{font-size:34px!important}
+  }
+</style>
+</head>
+<body style="margin:0;padding:0;background:#F7F5F1;">
+<div style="display:none;max-height:0;overflow:hidden;opacity:0;color:#F7F5F1;font-size:1px;line-height:1px;">Su {{ event.cupon_pct|default:"10" }}% extra sigue disponible. Así actúa Normalibs® semana a semana.&#8202;&#8202;&#8202;&#8202;&#8202;&#8202;&#8202;&#8202;&#8202;&#8202;&#8202;&#8202;</div>
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#F7F5F1;">
+<tr><td align="center" style="padding:24px 12px;">
+
+  <table role="presentation" class="wrap" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px;max-width:600px;background:#FFFFFF;border-radius:24px;overflow:hidden;">
+
+    <tr><td align="center" style="background:#0A3A47;padding:28px 24px;">
+      <img src="img/normalibs-logo-blanco.png" width="220" alt="Normalibs® Bifidobacterium longum 35624™" style="display:block;width:220px;max-width:100%;height:auto;border:0;">
+    </td></tr>
+
+    <!-- Mensaje principal -->
+    <tr><td class="px" align="center" style="padding:36px 40px 4px;font-family:Montserrat,Arial,Helvetica,sans-serif;">
+      <p style="margin:0 0 10px;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#0A7A83;">Su {{ event.cupon_pct|default:"10" }}% le está esperando</p>
+      <h1 class="h1" style="margin:0;font-size:30px;line-height:36px;font-weight:800;color:#0A3A47;">
+        {% if event.para == "hijo" %}Normalibs<sup style="font-size:14px;">®</sup> puede ayudar a su hijo o hija con {{ event.molestia_texto }}.{% else %}Normalibs<sup style="font-size:14px;">®</sup> puede ayudarle a aliviar {{ event.molestia_texto }}.{% endif %}
+      </h1>
+    </td></tr>
+
+    <!-- Síntomas marcados -->
+    {% if event.sintomas_detalle %}
+    <tr><td class="px" align="center" style="padding:18px 40px 0;font-family:Montserrat,Arial,Helvetica,sans-serif;">
+      <p style="margin:0 0 10px;font-size:14px;color:#5B6E73;">{% if event.para == "hijo" %}Usted nos contó que su hijo o hija tiene:{% else %}Usted nos contó que tiene:{% endif %}</p>
+      {% for s in event.sintomas_detalle %}<span style="display:inline-block;margin:0 4px 8px;padding:7px 14px;border-radius:999px;background:#E4F1F2;font-size:13px;font-weight:700;color:#0A3A47;">{{ s.titulo }}</span>{% endfor %}
+    </td></tr>
+    {% endif %}
+
+    <!-- Recorrido -->
+    <tr><td class="px" style="padding:24px 40px 4px;font-family:Montserrat,Arial,Helvetica,sans-serif;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #E6E3DD;border-radius:18px;">
+        <tr><td style="padding:18px 20px;">
+          <p style="margin:0 0 4px;"><span style="display:inline-block;padding:3px 10px;border-radius:999px;background:#0B7880;font-size:12px;font-weight:700;color:#FFFFFF;">Semana 1</span></p>
+          <p style="margin:6px 0 0;font-size:15px;font-weight:700;color:#0A3A47;">Equilibrio de la microbiota intestinal</p>
+        </td></tr>
+        <tr><td style="padding:18px 20px;border-top:1px solid #E6E3DD;">
+          <p style="margin:0 0 4px;"><span style="display:inline-block;padding:3px 10px;border-radius:999px;background:#0B7880;font-size:12px;font-weight:700;color:#FFFFFF;">Semana 4</span></p>
+          <p style="margin:6px 0 0;font-size:15px;color:#0A3A47;"><span class="stat" style="font-size:38px;font-weight:800;color:#0A7A83;vertical-align:middle;">62%</span>&nbsp; <strong>alivio adecuado</strong> del dolor y la distensión</p>
+        </td></tr>
+        <tr><td style="padding:18px 20px;border-top:1px solid #E6E3DD;">
+          <p style="margin:0 0 4px;"><span style="display:inline-block;padding:3px 10px;border-radius:999px;background:#0B7880;font-size:12px;font-weight:700;color:#FFFFFF;">3 meses</span></p>
+          <p style="margin:6px 0 0;font-size:15px;color:#0A3A47;"><span class="stat" style="font-size:38px;font-weight:800;color:#0A7A83;vertical-align:middle;">97%</span>&nbsp; <strong>reporta efectos positivos</strong></p>
+        </td></tr>
+      </table>
+    </td></tr>
+
+    <!-- Producto + oferta -->
+    <tr><td class="px" style="padding:26px 40px 8px;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#0A3A47;border-radius:20px;">
+        <tr>
+          <td width="130" align="center" valign="middle" style="padding:18px 0 18px 18px;">
+            <img src="{% if event.presentacion == "sobres" %}img/normalibs-sobres.png{% else %}img/normalibs-capsulas.png{% endif %}" width="110" alt="Caja de Normalibs {{ event.presentacion_nombre }}" style="display:block;width:110px;height:auto;border:0;border-radius:12px;background:#FFFFFF;">
+          </td>
+          <td valign="middle" style="padding:18px 20px;font-family:Montserrat,Arial,Helvetica,sans-serif;">
+            <p style="margin:0 0 4px;font-size:13px;font-weight:700;color:#7EC3CF;">Plan Paciente 2+1 · 3 meses por el precio de 2</p>
+            <p style="margin:0 0 6px;font-size:18px;font-weight:800;color:#FFFFFF;">Normalibs<sup>®</sup> {{ event.presentacion_nombre }}</p>
+            <p style="margin:0;font-size:14px;color:#CFE6EA;"><s>{{ event.precio }}</s> &nbsp;<strong style="font-size:18px;color:#FFFFFF;">{{ event.precio_con_codigo }}</strong> con {{ event.cupon|default:"QUIZ10" }}</p>
+          </td>
+        </tr>
+      </table>
+    </td></tr>
+
+    <tr><td align="center" style="padding:20px 40px 36px;">
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+        <tr><td align="center" bgcolor="#0B7880" style="border-radius:999px;">
+          <a href="{{ event.link_compra }}" target="_blank" style="display:inline-block;padding:17px 36px;font-family:Montserrat,Arial,Helvetica,sans-serif;font-size:15px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#FFFFFF;text-decoration:none;border-radius:999px;">Usar mi {{ event.cupon_pct|default:"10" }}% ahora</a>
+        </td></tr>
+      </table>
+      <p style="margin:14px 0 0;font-family:Montserrat,Arial,Helvetica,sans-serif;font-size:14px;color:#5B6E73;">¿Prefiere pagar en 2 partes? <a href="{{ event.link_fraccionado }}" target="_blank" style="color:#0B7880;font-weight:700;">Plan fraccionado</a></p>
+    </td></tr>
+
+    <tr><td align="center" style="background:#F2F0EB;padding:22px 30px;font-family:Montserrat,Arial,Helvetica,sans-serif;font-size:12px;line-height:18px;color:#5B6E73;">
+      Normalibs<sup>®</sup> es un suplemento alimenticio.<br>
+      {{ organization.name }} · {{ organization.full_address }}<br>
+      <a href="{% unsubscribe_url %}" style="color:#5B6E73;">Darse de baja</a>
+    </td></tr>
+
+  </table>
+</td></tr>
+</table>
+</body>
+</html>
